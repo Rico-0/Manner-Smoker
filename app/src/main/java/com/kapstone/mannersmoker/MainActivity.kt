@@ -410,12 +410,8 @@ class MainActivity : AppCompatActivity(), MapView.CurrentLocationEventListener,
             android.Manifest.permission.ACCESS_FINE_LOCATION,
             android.Manifest.permission.ACCESS_COARSE_LOCATION
         )
-        private const val OPEN_API_KEY = "d1134cd947745b49f0d8c93f0dd4fe81"
+        private const val OPEN_API_KEY = "OPEN_API_KEY"
     }
-
-    // 앱 해시 키 얻는 코드
-// keytool -exportcert -alias androiddebugkey -keystore C:\Users\LG06\.android\debug.keystore -storepass android -keypass android | D:\openssl-1.0.2j-fips-x86_64\OpenSSL\bin\openssl sha1 -binary | D:\openssl-1.0.2j-fips-x86_64\OpenSSL\bin\openssl base64
-
 }
 
 
