@@ -2,7 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <LinearLayout
         android:id="@+id/user_profile"
@@ -21,10 +22,11 @@
             android:layout_height="wrap_content">
 
             <ImageView
+                android:id="@+id/kakao_proflie_image"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:background="@drawable/user_background"
-                android:src="@drawable/my" />
+                tools:src="@drawable/my" />
 
             <ImageView
                 android:layout_width="20dp"
@@ -37,11 +39,12 @@
         </FrameLayout>
 
         <TextView
+            android:id="@+id/kakao_profile_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="50dp"
             android:layout_marginTop="10dp"
-            android:text="사용자1"
+            tools:text = "Terry"
             android:textSize="18dp" />
     </LinearLayout>
     

@@ -7,10 +7,6 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
-    <uses-feature
-        android:name="android.hardware.bluetooth_le"
-        android:required="true" />
-
     <application
         android:name=".application.GlobalApplication"
         android:allowBackup="true"
@@ -21,11 +17,23 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MannerSmoker"
         android:usesCleartextTraffic="true">
+        <activity android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:host="oauth"
+                    android:scheme="kakaod1134cd947745b49f0d8c93f0dd4fe81" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".MyPageActivity"
+            android:exported="true">
+        </activity>
         <activity
             android:name=".LoginActivity"
-            android:exported="false" />
-        <activity
-            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -33,10 +41,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
+
+        </activity>
 
         <meta-data
             android:name="com.kakao.sdk.AppKey"
-            android:value="OPEN_API_KEY" />
+            android:value="d1134cd947745b49f0d8c93f0dd4fe81" />
     </application>
 
 </manifest>
