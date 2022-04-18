@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <RelativeLayout
+        android:id="@+id/community_root"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/community_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Community"
+            android:padding="10dp"
+            android:textSize="30sp"
+            android:textColor="@color/white"
+            android:background="#8C8C8C"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/community_post_listView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/community_text"
+            android:layout_marginTop="10dp"
+            tools:listitem="@layout/item_community_post" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/write_post_floatingActionButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="60dp"
+            android:layout_marginRight="20dp"
+            android:backgroundTint="#777777"
+            android:foregroundGravity="center"
+            android:scaleType="fitXY"
+            android:src="@drawable/post_write_pen"
+            app:borderWidth="0dp"
+            app:fabSize="normal"
+            app:layout_anchorGravity="center"
+            app:tint="@color/white" />
+
+    </RelativeLayout>
+
+</layout>

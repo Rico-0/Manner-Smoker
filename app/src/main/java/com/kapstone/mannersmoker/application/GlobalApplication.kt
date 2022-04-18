@@ -3,7 +3,8 @@ package com.kapstone.mannersmoker.application
 import android.app.Application
 import android.content.SharedPreferences
 import com.kakao.sdk.common.KakaoSdk
-import com.kapstone.mannersmoker.R
+import com.kapstone.mannersmoker.model.data.Place
+import com.kapstone.mannersmoker.model.data.Places.places
 import com.kapstone.mannersmoker.util.FILENAME
 
 class GlobalApplication : Application() {
@@ -25,11 +26,18 @@ class GlobalApplication : Application() {
         instance = this
         KakaoSdk.init(this, "d1134cd947745b49f0d8c93f0dd4fe81")
         prefs = getSharedPreferences(FILENAME, 0) // 사용자 설정값을 얻어옴
+        initLocations()
     }
 
     override fun onTerminate() {
         super.onTerminate()
         instance = null
+    }
+
+    private fun initLocations() {
+        places.add(
+            Place(37.25108002,127.0198291, "")
+        )
     }
 
 }

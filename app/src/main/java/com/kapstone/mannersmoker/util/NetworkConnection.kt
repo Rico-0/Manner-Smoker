@@ -34,11 +34,11 @@ class NetworkConnection(private val context: Context) : LiveData<Boolean>() {
 
     override fun onInactive() {
         super.onInactive()
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            connectivityManager.unregisterNetworkCallback(connectivityManagerCallback())
-        } else {
-            context.unregisterReceiver(networkReceiver)
-        }
+      //  if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+          //  connectivityManager.unregisterNetworkCallback(connectivityManagerCallback())
+     //   } else {
+         //   context.unregisterReceiver(networkReceiver)
+       // }
     }
 
     private fun connectivityManagerCallback(): ConnectivityManager.NetworkCallback {
