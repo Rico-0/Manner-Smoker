@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/item_news_root"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:padding="20dp"
+        android:elevation="10dp"
+        android:layout_margin="10dp"
+        android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/news_thumbnail"
+            android:layout_width="100dp"
+            android:layout_height="200dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginVertical="5dp"
+            android:src="@drawable/my"
+            android:background="#DCDCDC"
+            android:scaleType="centerCrop"/>
+
+        <LinearLayout
+            android:id="@+id/news_info_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintStart_toEndOf="@id/news_thumbnail"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginLeft="20dp">
+
+            <TextView
+                android:id="@+id/news_title"
+                android:layout_width="240dp"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                tools:text="담배가 건강에 미치는 7가지 악영향"
+                android:textSize="17sp"/>
+
+            <TextView
+                android:id="@+id/news_content"
+                android:layout_width="230dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                app:layout_constraintTop_toBottomOf="@id/news_info_layout"
+                app:layout_constraintStart_toStartOf="@id/news_info_layout"
+                android:textSize="15sp"
+                tools:text="새해를 맞이하면서 사람들은 새로운 목표를 세우고 새로운 결심을 하게 된다. 그 목표도 제각각인데 그중에는 건강을 위해 금연이 목표라는 사람도 많다. 하지만 실제로 금연에 성공하는 사람은 소수에 불과하고..."/>
+
+
+        </LinearLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

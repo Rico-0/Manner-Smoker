@@ -19,12 +19,12 @@
             android:background="#8C8C8C"/>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/community_post_listView"
+            android:id="@+id/news_listView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/news_text"
             android:layout_marginTop="10dp"
-            tools:listitem="@layout/item_community_post" />
+            tools:listitem="@layout/item_news" />
 
     </RelativeLayout>
 
