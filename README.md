@@ -1,10 +1,5 @@
-# Manner-Smoker
-A repository for android develop
 
 # Manner-Smoker
-
-
-
 # 1.요구사항 - 3.25 update
 
 ## 1.1 로그인
