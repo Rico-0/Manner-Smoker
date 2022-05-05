@@ -5,7 +5,7 @@ import com.kapstone.mannersmoker.R
 import com.kapstone.mannersmoker.base.BaseFragment
 import com.kapstone.mannersmoker.databinding.BallonLayoutBinding
 
-class ballonFragment : BaseFragment<BallonLayoutBinding>() {
+class SmokePlaceDetailFragment : BaseFragment<BallonLayoutBinding>() {
 
     override val layoutResourceId: Int
         get() = R.layout.ballon_layout

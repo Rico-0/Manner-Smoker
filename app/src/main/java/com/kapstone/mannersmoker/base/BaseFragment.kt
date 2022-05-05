@@ -55,6 +55,7 @@ abstract class BaseFragment<T : ViewDataBinding> : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         Log.d(TAG, "++onCreate")
     }
 

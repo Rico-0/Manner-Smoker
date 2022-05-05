@@ -8,6 +8,8 @@ private const val USER_PROFILE_IMAGE_URL = "user_profile_image_url"
 private const val DAILY_SMOKE = "daily_smoke"
 private const val IS_LOGGED_IN_BEFORE = "is_logged_in_before"
 private const val IS_GUEST = "is_guest"
+private const val ALARM_DAILY_SMOKE = "alarm_daily_smoke"
+private const val ALARM_NEAR_TO_SMOKE_PLACE = "alarm_near_to_smoke_place"
 
 object PreferencesManager {
     var user_name : String?
@@ -30,7 +32,17 @@ object PreferencesManager {
 
     // 사용자가 직접 설정하는 하루 흡연량
     var daily_smoke : Int
-    get() = prefs.getInt(DAILY_SMOKE, 0)
+    get() = prefs.getInt(DAILY_SMOKE, 10)
     set(value) = prefs.edit().putInt(DAILY_SMOKE, value).apply()
+
+    // 일일 흡연량 알림
+    var alarm_daily_smoke : Boolean
+        get() = prefs.getBoolean(ALARM_DAILY_SMOKE, true)
+        set(value) = prefs.edit().putBoolean(ALARM_DAILY_SMOKE, value).apply()
+
+    // 흡연 구역 근방에 위치할 시 알림
+    var alarm_near_to_smoke_place : Boolean
+        get() = prefs.getBoolean(ALARM_NEAR_TO_SMOKE_PLACE, true)
+        set(value) = prefs.edit().putBoolean(ALARM_NEAR_TO_SMOKE_PLACE, value).apply()
 
 }

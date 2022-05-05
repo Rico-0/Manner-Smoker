@@ -12,6 +12,7 @@
     <!--  android:visibility="@{isLogin ? View.VISIBLE : View.GONE}" -->
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/mypage_root"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <LinearLayout
@@ -182,6 +183,7 @@
             android:padding="20dp">
 
             <TextView
+                android:id="@+id/edit_profile"
                 android:layout_width="300dp"
                 android:layout_height="30dp"
                 android:text="프로필 수정"
@@ -198,7 +200,7 @@
                 android:gravity="center">
 
                 <TextView
-                    android:id="@+id/reward_count"
+                    android:id="@+id/show_reward"
                     android:layout_width="300dp"
                     android:layout_height="30dp"
                     android:layout_gravity="center"
@@ -221,7 +223,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignEnd="@+id/reward_count"
+                    android:layout_alignEnd="@+id/show_reward"
                     android:layout_marginVertical="13dp"
                     android:src="@drawable/right" />
             </RelativeLayout>
@@ -261,13 +263,13 @@
                 android:layout_marginTop="5dp">
 
                 <TextView
-                    android:id="@+id/notification"
+                    android:id="@+id/smoke_history"
                     android:layout_width="300dp"
                     android:layout_height="30dp"
                     android:layout_gravity="center"
                     android:background="@drawable/user_background"
                     android:gravity="center"
-                    android:text="당월 흡연 기록"
+                    android:text="흡연 기록 보기"
                     android:textColor="@color/white"
                     android:textStyle="bold" />
 

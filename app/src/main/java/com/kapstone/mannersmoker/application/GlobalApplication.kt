@@ -3,8 +3,10 @@ package com.kapstone.mannersmoker.application
 import android.app.Application
 import android.content.SharedPreferences
 import com.kakao.sdk.common.KakaoSdk
+import com.kapstone.mannersmoker.model.data.DailySmokeData
 import com.kapstone.mannersmoker.model.data.Place
 import com.kapstone.mannersmoker.model.data.Places.places
+import com.kapstone.mannersmoker.ui.my.SettingFragment.Companion.isPassedOneDay
 import com.kapstone.mannersmoker.util.FILENAME
 
 class GlobalApplication : Application() {
@@ -27,6 +29,8 @@ class GlobalApplication : Application() {
         KakaoSdk.init(this, "d1134cd947745b49f0d8c93f0dd4fe81")
         prefs = getSharedPreferences(FILENAME, 0) // 사용자 설정값을 얻어옴
         initLocations()
+        if (isPassedOneDay())
+            DailySmokeData.isSettedDailySmoke = !DailySmokeData.isSettedDailySmoke
     }
 
     override fun onTerminate() {

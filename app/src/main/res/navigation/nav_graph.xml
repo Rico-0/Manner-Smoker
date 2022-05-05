@@ -34,13 +34,25 @@
         <action
             android:id="@+id/action_go_to_my"
             app:destination="@+id/myFragment" />
+        <action
+            android:id="@+id/action_go_to_setting"
+            app:destination="@+id/settingFragment" />
+        <action
+            android:id="@+id/action_go_to_edit_profile"
+            app:destination="@id/editProfileFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/mapFragment"
         android:name="com.kapstone.mannersmoker.ui.map.MapFragment"
         android:label="mapFragment"
-        tools:layout="@layout/fragment_map" />
+        tools:layout="@layout/fragment_map">
+        <action
+            android:id="@+id/action_go_to_add_new_smoke_place"
+            app:destination="@+id/addNewSmokePlaceFragment" />
+    </fragment>
+
+
 
     <fragment
         android:id="@+id/communityFragment"
@@ -58,5 +70,23 @@
         android:id="@+id/myFragment"
         android:name="com.kapstone.mannersmoker.ui.my.MyPageFragment"
         android:label="myFragment"
-        tools:layout="@layout/activity_mypage" />
+        tools:layout="@layout/fragment_mypage">
+    </fragment>
+
+    <fragment
+        android:id="@+id/settingFragment"
+        android:name="com.kapstone.mannersmoker.ui.my.SettingFragment"
+        android:label="settingFragment"
+        tools:layout="@layout/fragment_setting" />
+
+    <fragment
+        android:id="@+id/editProfileFragment"
+        android:name="com.kapstone.mannersmoker.ui.my.EditProfileFragment"
+        android:label="editProfileFragment"
+        tools:layout="@layout/fragment_edit_profile" />
+
+    <fragment
+        android:id="@+id/addNewSmokePlaceFragment"
+        android:name=""
+
 </navigation>
