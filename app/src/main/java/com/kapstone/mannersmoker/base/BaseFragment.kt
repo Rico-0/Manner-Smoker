@@ -29,8 +29,6 @@ abstract class BaseFragment<T : ViewDataBinding> : Fragment() {
 
     internal val compositeDisposable = CompositeDisposable()
 
-    private lateinit var callback: OnBackPressedCallback
-
     val click by lazy { ClickUtil(this.lifecycle) }
 
     abstract fun initStartView()
@@ -50,8 +48,9 @@ abstract class BaseFragment<T : ViewDataBinding> : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        Log.d(TAG, "++onAttach")
     }
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -107,7 +106,6 @@ abstract class BaseFragment<T : ViewDataBinding> : Fragment() {
 
     override fun onDetach() {
         super.onDetach()
-        Log.d(TAG, "++onDetach()")
     }
 
     override fun onDestroy() {

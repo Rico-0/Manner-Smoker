@@ -7,7 +7,7 @@ package com.kapstone.mannersmoker.util
 object LocationDistance {
     fun distance(lat1: Double, lon1 : Double, lat2: Double, lon2 : Double, unit : String) : Double {
         val theta : Double = lon1 - lon2
-        var dist : Double = Math.sin(deg2rad(lat1)) * Math.sin(deg2rad(lat2)) * Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.cos(deg2rad(theta))
+        var dist : Double = Math.sin(deg2rad(lat1)) * Math.sin(deg2rad(lat2)) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.cos(deg2rad(theta))
 
         dist = Math.acos(dist)
         dist = rad2deg(dist)

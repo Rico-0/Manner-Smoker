@@ -8,5 +8,6 @@ data class Post(
     val date : Date,
     val content : String
    // val like : Int,
-   // val comments : List<Comment>
+   // val comments : List<Comment>,
+    // val is_like : Boolean
 )

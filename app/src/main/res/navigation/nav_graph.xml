@@ -40,6 +40,15 @@
         <action
             android:id="@+id/action_go_to_edit_profile"
             app:destination="@id/editProfileFragment" />
+        <action
+            android:id="@+id/action_go_to_add_new_smoke_place"
+            app:destination="@+id/addNewSmokePlaceFragment" />
+        <action
+            android:id="@+id/action_go_to_smoke_place_detail"
+            app:destination="@id/smokePlaceDetailFragment" />
+        <action
+            android:id="@+id/action_go_to_smoke_calendar"
+            app:destination="@id/smokeCalendarFragment" />
     </fragment>
 
     <fragment
@@ -50,8 +59,10 @@
         <action
             android:id="@+id/action_go_to_add_new_smoke_place"
             app:destination="@+id/addNewSmokePlaceFragment" />
+        <action
+            android:id="@+id/action_go_to_smoke_place_detail"
+            app:destination="@id/smokePlaceDetailFragment" />
     </fragment>
-
 
 
     <fragment
@@ -77,16 +88,50 @@
         android:id="@+id/settingFragment"
         android:name="com.kapstone.mannersmoker.ui.my.SettingFragment"
         android:label="settingFragment"
-        tools:layout="@layout/fragment_setting" />
+        tools:layout="@layout/fragment_setting">
+        <action
+            android:id="@+id/action_go_to_main"
+            app:destination="@id/mainFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/editProfileFragment"
         android:name="com.kapstone.mannersmoker.ui.my.EditProfileFragment"
         android:label="editProfileFragment"
-        tools:layout="@layout/fragment_edit_profile" />
+        tools:layout="@layout/fragment_edit_profile">
+        <action
+            android:id="@+id/action_go_to_main"
+            app:destination="@id/mainFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/addNewSmokePlaceFragment"
-        android:name=""
+        android:name="com.kapstone.mannersmoker.ui.map.AddNewSmokePlaceFragment"
+        android:label="addNewSmokePlaceFragment"
+        tools:layout="@layout/fragment_add_new_smoke_place">
+        <action
+            android:id="@+id/action_go_to_main"
+            app:destination="@id/mainFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/smokePlaceDetailFragment"
+        android:name="com.kapstone.mannersmoker.ui.map.SmokePlaceDetailFragment"
+        android:label="smokePlaceDetailFragment"
+        tools:layout="@layout/fragment_smoke_place_detail">
+        <action
+            android:id="@+id/action_go_to_main"
+            app:destination="@id/mainFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/smokeCalendarFragment"
+        android:name="com.kapstone.mannersmoker.ui.my.SmokeCalendarFragment"
+        android:label="smokeCalendarFragment"
+        tools:layout="@layout/fragment_calendar_smoke_history">
+        <action
+            android:id="@+id/action_go_to_main"
+            app:destination="@id/mainFragment"/>
+    </fragment>
 
 </navigation>

@@ -6,11 +6,13 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.FragmentManager
 import com.kapstone.mannersmoker.R
 import com.kapstone.mannersmoker.base.BaseFragment
 import com.kapstone.mannersmoker.databinding.FragmentSettingBinding
 import com.kapstone.mannersmoker.model.data.DailySmokeData
+import com.kapstone.mannersmoker.ui.main.findNavControllerSafely
 import com.kapstone.mannersmoker.util.AlarmReceiver
 import com.kapstone.mannersmoker.util.PreferencesManager.alarm_daily_smoke
 import com.kapstone.mannersmoker.util.PreferencesManager.alarm_near_to_smoke_place
@@ -19,8 +21,26 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class SettingFragment : BaseFragment<FragmentSettingBinding>() {
+
+    private lateinit var callback : OnBackPressedCallback
+
     override val layoutResourceId: Int
         get() = R.layout.fragment_setting
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                findNavControllerSafely()?.navigate(R.id.action_go_to_main)
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        callback.remove()
+    }
 
     override fun initStartView() {
         // 어플을 킨 시점과 흡연량을 설정한 시간 차이가 하루 날 경우 기본값 10개비로 세팅
@@ -31,20 +51,7 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>() {
         initDailySmoke()
         initAlarmSwitch()
         setAlarmSwitchChangeListener()
-
-        binding.goBackButton.setOnClickListener {
-                listener.onBackPressed()
-            }
         }
-
-     private val listener = object : OnBackPressedListener {
-        override fun onBackPressed() {
-            val fragmentManager: FragmentManager =
-                Objects.requireNonNull(requireActivity()).supportFragmentManager
-            fragmentManager.beginTransaction().remove(this@SettingFragment).commit()
-            fragmentManager.popBackStack()
-        }
-    }
 
     private fun initDailySmoke() {
         binding.dailySmoke.text = daily_smoke.toString() + "개비" // 기본 10개비
@@ -154,6 +161,3 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>() {
     }
 }
 
-interface OnBackPressedListener {
-    fun onBackPressed()
-}

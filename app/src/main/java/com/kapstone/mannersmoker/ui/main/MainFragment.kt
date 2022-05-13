@@ -1,14 +1,19 @@
 package com.kapstone.mannersmoker.ui.main
 
 import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.tabs.TabLayoutMediator
 import com.kapstone.mannersmoker.R
 import com.kapstone.mannersmoker.base.BaseFragment
@@ -18,7 +23,11 @@ import com.kapstone.mannersmoker.ui.home.HomeFragment
 import com.kapstone.mannersmoker.ui.map.MapFragment
 import com.kapstone.mannersmoker.ui.my.MyPageFragment
 import com.kapstone.mannersmoker.ui.news.NewsFragment
+import com.kapstone.mannersmoker.util.PermissionUtil
 import kotlinx.android.synthetic.main.custom_tab_button.view.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class MainFragment : BaseFragment<FragmentMainBinding>() {
 
@@ -58,6 +67,12 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
 
         initTabLayout()
 
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        PermissionUtil.checkForgroundLocationPermission(requireActivity())
+        PermissionUtil.checkBackgroundLocationPermission(requireActivity())
     }
 
     private fun createTabLayoutView(tabName : String) : View {
@@ -104,6 +119,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
                 if(System.currentTimeMillis() - WAIT_TIME >= 1500 ) {
                     WAIT_TIME = System.currentTimeMillis()
                     Toast.makeText(requireActivity(), "뒤로가기 버튼을 한번 더 누르면 종료됩니다.",Toast.LENGTH_SHORT).show()
+                    requireActivity().finish()
                 } else {
 
                 }
@@ -124,5 +140,70 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
         callback.remove()
     }
 
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        // 위치 권한 요청을 했고 요청한 퍼미션 개수만큼 수신되었다면
+        if (requestCode == PermissionUtil.LOCATION_PERMISSIONS_REQUEST_CODE && grantResults.size == PermissionUtil.REQUIRED_PREMISSIONS.size) {
+            var check_result: Boolean = true
+
+            // 모든 퍼미션 허용했는지 체크
+            grantResults.forEach {
+                if (it != PackageManager.PERMISSION_GRANTED) {
+                    check_result = false
+                    return@forEach
+                }
+            }
+            if (check_result) {
+                lifecycleScope.launch(Dispatchers.Main) {
+                    delay(1000L) // 1초 후에 메인 프래그먼트로 이동
+                    findNavControllerSafely()?.navigate(R.id.action_loginFragment_to_mainFragment)
+                }
+            } else {
+                // 거부한 퍼미션이 있는 경우 앱 사용이 불가능
+                if (ActivityCompat.shouldShowRequestPermissionRationale(
+                        requireActivity(),
+                        PermissionUtil.REQUIRED_PREMISSIONS[0]
+                    ) ||
+                    ActivityCompat.shouldShowRequestPermissionRationale(
+                        requireActivity(),
+                        PermissionUtil.REQUIRED_PREMISSIONS[1]
+                    )
+                ) {
+                    Toast.makeText(
+                        requireActivity(),
+                        "권한이 거부되었습니다. 앱을 다시 실행하여 권한을 허용해주세요.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    requireActivity().finish()
+                } else {
+                    Toast.makeText(
+                        requireActivity(),
+                        "권한이 거부되었습니다. 설정(앱 정보) 에서 권한을 허용해주세요.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        when (requestCode) {
+            PermissionUtil.GPS_ENABLE_REQUEST_CODE -> {
+                if (PermissionUtil.checkLocationServicesStatus(requireActivity())) {
+                    Log.d("@@@", "onActivityResult : GPS 활성화됨")
+                    PermissionUtil.checkForgroundLocationPermission(requireActivity())
+                    return
+                } else {
+                    PermissionUtil.showDialogForLocationServiceSetting(requireActivity())
+                }
+            }
+        }
+    }
 
 }

@@ -7,6 +7,7 @@ import com.kapstone.mannersmoker.R
 import com.kapstone.mannersmoker.base.BaseFragment
 import com.kapstone.mannersmoker.databinding.FragmentMypageBinding
 import com.kapstone.mannersmoker.model.data.User
+import com.kapstone.mannersmoker.ui.main.findNavControllerSafely
 
 class MyPageFragment : BaseFragment<FragmentMypageBinding>() {
 
@@ -33,10 +34,10 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>() {
             Toast.makeText(requireActivity(), "업적 보기", Toast.LENGTH_SHORT).show()
         }
         binding.setting.setOnClickListener {
-            this@MyPageFragment.findNavController().navigate(R.id.action_go_to_setting)
+            this@MyPageFragment.findNavControllerSafely()?.navigate(R.id.action_go_to_setting)
         }
         binding.smokeHistory.setOnClickListener {
-            Toast.makeText(requireActivity(), "흡연 기록 보기", Toast.LENGTH_SHORT).show()
+            this@MyPageFragment.findNavControllerSafely()?.navigate(R.id.action_go_to_smoke_calendar)
         }
     }
 }

@@ -13,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import com.kapstone.mannersmoker.R
 import com.kapstone.mannersmoker.base.BaseFragment
 import com.kapstone.mannersmoker.databinding.FragmentEditProfileBinding
+import com.kapstone.mannersmoker.ui.main.findNavControllerSafely
 import kotlinx.android.parcel.Parcelize
 import java.util.*
 
@@ -53,6 +54,9 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>() {
 
     override fun initStartView() {
         binding.profileName.text = argument.profileName
+        binding.changeProfileCancel.setOnClickListener {
+            findNavControllerSafely()?.navigate(R.id.action_go_to_main)
+        }
     }
 
 }

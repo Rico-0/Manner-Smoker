@@ -33,6 +33,7 @@
         <entry key="..\:/MannerSmoker/app/src/main/res/layout/dialog_dailysmoke_numberpicker.xml" value="0.28125" />
         <entry key="..\:/MannerSmoker/app/src/main/res/layout/edit_profile_layout.xml" value="0.38791732909379967" />
         <entry key="..\:/MannerSmoker/app/src/main/res/layout/fragment_add_new_smoke_place.xml" value="0.30364583333333334" />
+        <entry key="..\:/MannerSmoker/app/src/main/res/layout/fragment_calendar_smoke_history.xml" value="0.2" />
         <entry key="..\:/MannerSmoker/app/src/main/res/layout/fragment_community.xml" value="0.23541666666666666" />
         <entry key="..\:/MannerSmoker/app/src/main/res/layout/fragment_edit_profile.xml" value="0.42552083333333335" />
         <entry key="..\:/MannerSmoker/app/src/main/res/layout/fragment_home.xml" value="0.33" />
@@ -42,6 +43,7 @@
         <entry key="..\:/MannerSmoker/app/src/main/res/layout/fragment_mypage.xml" value="0.33" />
         <entry key="..\:/MannerSmoker/app/src/main/res/layout/fragment_news.xml" value="0.196875" />
         <entry key="..\:/MannerSmoker/app/src/main/res/layout/fragment_setting.xml" value="0.33" />
+        <entry key="..\:/MannerSmoker/app/src/main/res/layout/fragment_smokeplacedetail.xml" value="0.264" />
         <entry key="..\:/MannerSmoker/app/src/main/res/layout/go_to_webpage.xml" value="0.6073369565217391" />
         <entry key="..\:/MannerSmoker/app/src/main/res/layout/item_community_post.xml" value="0.33" />
         <entry key="..\:/MannerSmoker/app/src/main/res/layout/item_day_smoke.xml" value="0.46197916666666666" />

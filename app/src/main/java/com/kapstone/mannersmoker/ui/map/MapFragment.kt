@@ -1,26 +1,21 @@
-import android.Manifest
+package com.kapstone.mannersmoker.ui.map
+
 import android.content.Context
-import android.content.DialogInterface
-import android.content.Intent
-import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationManager
-import android.net.Uri
-import android.os.Build
-import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import com.kapstone.mannersmoker.R
 import com.kapstone.mannersmoker.base.BaseFragment
 import com.kapstone.mannersmoker.databinding.BallonLayoutBinding
 import com.kapstone.mannersmoker.databinding.FragmentMapBinding
 import com.kapstone.mannersmoker.model.data.Place
 import com.kapstone.mannersmoker.model.data.Places.places
+import com.kapstone.mannersmoker.ui.map.SmokePlaceDetailFragment
+import com.kapstone.mannersmoker.util.LocationDistance
 import com.kapstone.mannersmoker.util.NetworkConnection
 import com.kapstone.mannersmoker.util.PermissionUtil
 import kotlinx.android.synthetic.main.ballon_layout.view.*
@@ -56,8 +51,24 @@ class MapFragment : BaseFragment<FragmentMapBinding>(), MapView.CurrentLocationE
         override fun onPOIItemSelected(map_View: MapView?, poiItem: MapPOIItem?) {
             Log.d(TAG, "onPOIItemSelected 호출됨")
             if (poiItem?.markerType == MapPOIItem.MarkerType.BluePin) {
-                val mapPoint = poiItem?.mapPoint
-                showDialog(mapPoint)
+                val mapPoint = poiItem?.mapPoint!!
+                val placeData = poiItem.itemName // 여기에 정보 들어감 (순서대로 이미지 주소, 장소 이름, 장소 주소)
+                val placeDataResult = placeData.split(",") // 따옴표로 결과 분리
+                click.run {
+                    SmokePlaceDetailFragment.start(
+                        fragment = this@MapFragment,
+                        argument = SmokePlaceDetailFragment.Argument(
+                            currentLatitude = currentMapPoint?.mapPointGeoCoord?.latitude!!,
+                            currentLongtitude = currentMapPoint?.mapPointGeoCoord?.longitude!!,
+                            smokePlaceLatitude = mapPoint.mapPointGeoCoord.latitude,
+                            smokePlaceLongtitude = mapPoint.mapPointGeoCoord.longitude,
+                            smokePlaceImage = placeDataResult[0],
+                            smokePlaceName = placeDataResult[1],
+                            smokePlaceAddress = placeDataResult[2],
+                            distance = getSmokePlaceDistanceFromCurrent(mapPoint)
+                        )
+                    )
+                }
             }
         }
 
@@ -83,7 +94,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(), MapView.CurrentLocationE
 
         checkNetworkConnection()
         startTracking()
-        setOnZoomButtonListener()
+        setButtonUiListener()
         setPlaceData()
     }
 
@@ -102,7 +113,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(), MapView.CurrentLocationE
         })
     }
 
-    private fun setOnZoomButtonListener() {
+    private fun setButtonUiListener() {
         binding.mapBiggerButton.setOnClickListener {
             zoomLevel -= 1 // 줌 레벨이 낮을수록 확대인 듯
             mapView.setZoomLevel(zoomLevel, true)
@@ -122,6 +133,9 @@ class MapFragment : BaseFragment<FragmentMapBinding>(), MapView.CurrentLocationE
                 }
             })
         }
+        binding.addNewPlace.setOnClickListener {
+            this@MapFragment.findNavController().navigate(R.id.action_go_to_add_new_smoke_place)
+        }
     }
 
     override fun onResume() {
@@ -137,32 +151,21 @@ class MapFragment : BaseFragment<FragmentMapBinding>(), MapView.CurrentLocationE
     }
 
     // 현재 위치 구하기
+    // TODO : 처음 앱 실행 시 권한 문제 Error 해결
     private fun getCurrentMapPoint(): MapPoint {
-        val lm: LocationManager =
-            requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        val userNowLocation: Location?
-        //  val userNowLocation: Location? = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER)
-        if (ActivityCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            userNowLocation = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER)
-            // 위도, 경도
-            val uLatitude = userNowLocation?.latitude
-            val uLongtitude = userNowLocation?.longitude
+        PermissionUtil.checkForgroundLocationPermission(requireActivity())
+        val lm: LocationManager = requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        val userNowLocation: Location? = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+        // 위도, 경도
+        val uLatitude = userNowLocation?.latitude
+        val uLongtitude = userNowLocation?.longitude
 
-            val uNowPosition = MapPoint.mapPointWithGeoCoord(uLatitude!!, uLongtitude!!)
-            Log.d(
-                TAG,
-                "getCurrentLocation - 위도 : ${uNowPosition.mapPointGeoCoord.latitude} 경도 : ${uNowPosition.mapPointGeoCoord.longitude}"
-            )
-            return uNowPosition
-        }
-        return MapPoint.mapPointWithGeoCoord(0.0, 0.0)
+        val uNowPosition = MapPoint.mapPointWithGeoCoord(uLatitude!!, uLongtitude!!)
+        Log.d(
+            TAG,
+            "getCurrentLocation - 위도 : ${uNowPosition.mapPointGeoCoord.latitude} 경도 : ${uNowPosition.mapPointGeoCoord.longitude}"
+        )
+        return uNowPosition
     }
 
     private fun convertPlaceToMapPoint(latitude: Double, longtitude: Double): MapPoint {
@@ -185,10 +188,12 @@ class MapFragment : BaseFragment<FragmentMapBinding>(), MapView.CurrentLocationE
     }
 
     // 해당 위치에 마커 찍기
-    private fun setMarkerToLocation(place: Place, address: String?) {
+    private fun setMarkerToLocation(place: Place) {
         val marker = MapPOIItem()
+        // val placeData : String = place.address + " " + place.name + ... (데이터 전부 공백 단위로 묶어서 문자열로 붙인 다음 Name으로 설정)
         marker.apply {
-            itemName = "Marker"
+            // itemName : 흡연 구역 이미지 파일명, 흡연 구역 이름, 흡연 구역 주소
+            itemName = ",경기대학교 복지관 앞,경기도 수원시 권선구 13-5" // placeData
             mapPoint = convertPlaceToMapPoint(place.latitude, place.longitude)
             markerType = setMarkerColor(place)
         }
@@ -253,8 +258,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(), MapView.CurrentLocationE
                 currentMapPoint!!.mapPointGeoCoord.latitude,
                 currentMapPoint!!.mapPointGeoCoord.longitude,
                 currentLocationAddress
-            ),
-            currentLocationAddress
+            )
         )
     }
 
@@ -263,96 +267,16 @@ class MapFragment : BaseFragment<FragmentMapBinding>(), MapView.CurrentLocationE
         // TODO : 서버에서 데이터 받아오는 경우 MainActivity의 MainViewModel로 받아오기
         places.forEach {
             // findAddressByMapPoint(it)
-            setMarkerToLocation(it, it.address)
+            setMarkerToLocation(it)
         }
     }
 
-
-    private fun showDialog(mapPoint: MapPoint?) {
-        val dialog = MapDialog(requireContext())
-        dialog.setAcceptBtnClickListener {
-            showVehicleChoice(mapPoint)
-        }
-        dialog.setDialog()
-    }
-
-    private fun showVehicleChoice(mapPoint: MapPoint?) {
-        val builder = AlertDialog.Builder(requireContext())
-        val itemList = arrayOf("자동차", "대중교통", "도보")
-        builder.setTitle("이동 수단을 선택하세요.")
-        builder.setItems(itemList) { dialog, which ->
-            when (which) {
-                0 -> searchDestination("자동차", mapPoint)
-                1 -> searchDestination("대중교통", mapPoint)
-                2 -> searchDestination("도보", mapPoint)
-            }
-        }
-        builder.show()
-    }
-
-    private fun searchDestination(vehicle: String, destinationMapPoint: MapPoint?) {
-        when (vehicle) {
-            "자동차" -> {
-                try {
-                    val intent = Intent(
-                        Intent.ACTION_VIEW, Uri.parse(
-                            "kakaomap://route?sp=${currentMapPoint?.mapPointGeoCoord?.latitude},${currentMapPoint?.mapPointGeoCoord?.longitude}&ep=${destinationMapPoint?.mapPointGeoCoord?.latitude},${destinationMapPoint?.mapPointGeoCoord?.longitude}&by=CAR"
-                        )
-                    )
-                    startActivity(intent)
-                } catch (e: Exception) {
-                    Toast.makeText(
-                        requireContext(),
-                        "카카오맵이 설치되어 있지 않습니다. 설치 화면으로 이동합니다.",
-                        Toast.LENGTH_SHORT
-                    ).show();
-                    val intent =
-                        Intent(Intent.ACTION_VIEW).setData(Uri.parse("https://play.google.com/store/apps/details?id=net.daum.android.map&hl=ko"));
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent);
-                }
-            }
-            "대중교통" -> {
-                try {
-                    val intent = Intent(
-                        Intent.ACTION_VIEW, Uri.parse(
-                            "kakaomap://route?sp=${currentMapPoint?.mapPointGeoCoord?.latitude},${currentMapPoint?.mapPointGeoCoord?.longitude}&ep=${destinationMapPoint?.mapPointGeoCoord?.latitude},${destinationMapPoint?.mapPointGeoCoord?.longitude}&by=PUBLICTRANSIT"
-                        )
-                    )
-                    startActivity(intent)
-                } catch (e: Exception) {
-                    Toast.makeText(
-                        requireContext(),
-                        "카카오맵이 설치되어 있지 않습니다. 설치 화면으로 이동합니다.",
-                        Toast.LENGTH_SHORT
-                    ).show();
-                    val intent =
-                        Intent(Intent.ACTION_VIEW).setData(Uri.parse("https://play.google.com/store/apps/details?id=net.daum.android.map&hl=ko"));
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent);
-                }
-            }
-            "도보" -> {
-                try {
-                    val intent = Intent(
-                        Intent.ACTION_VIEW, Uri.parse(
-                            "kakaomap://route?sp=${currentMapPoint?.mapPointGeoCoord?.latitude},${currentMapPoint?.mapPointGeoCoord?.longitude}&ep=${destinationMapPoint?.mapPointGeoCoord?.latitude},${destinationMapPoint?.mapPointGeoCoord?.longitude}&by=FOOT"
-                        )
-                    )
-                    startActivity(intent)
-                } catch (e: Exception) {
-                    Toast.makeText(
-                        requireContext(),
-                        "카카오맵이 설치되어 있지 않습니다. 설치 화면으로 이동합니다.",
-                        Toast.LENGTH_SHORT
-                    ).show();
-                    val intent =
-                        Intent(Intent.ACTION_VIEW).setData(Uri.parse("https://play.google.com/store/apps/details?id=net.daum.android.map&hl=ko"));
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent);
-                }
-            }
-        }
+    private fun getSmokePlaceDistanceFromCurrent(mapPoint: MapPoint?) : String {
+        var distance : Double = LocationDistance.distance(currentMapPoint!!.mapPointGeoCoord.latitude, currentMapPoint!!.mapPointGeoCoord.longitude, mapPoint?.mapPointGeoCoord?.latitude!!, mapPoint?.mapPointGeoCoord?.longitude!!, "meter")
+        if (distance >= 1000.0) {
+            distance = LocationDistance.distance(currentMapPoint!!.mapPointGeoCoord.latitude, currentMapPoint!!.mapPointGeoCoord.longitude, mapPoint?.mapPointGeoCoord?.latitude!!, mapPoint?.mapPointGeoCoord?.longitude!!, "kilometer")
+            return "약 " + distance.toInt().toString() + "km"
+        } else return "약 " + distance.toInt().toString() + "m"
     }
 
     // 현재 위치 업데이트

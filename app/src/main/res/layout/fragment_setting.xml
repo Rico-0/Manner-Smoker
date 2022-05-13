@@ -23,25 +23,14 @@
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            android:padding="10dp"
             android:background="#6DADE3">
-
-            <ImageView
-                android:id="@+id/go_back_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_centerInParent="true"
-                android:layout_marginBottom="5dp"
-                android:padding="15dp"
-                android:src="@drawable/back_arrow"
-                android:textSize="30sp" />
 
             <TextView
                 android:id="@+id/setting_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:layout_toRightOf="@id/go_back_button"
                 android:text="사용자 설정"
                 android:textColor="@color/white"
                 android:textSize="20sp"
