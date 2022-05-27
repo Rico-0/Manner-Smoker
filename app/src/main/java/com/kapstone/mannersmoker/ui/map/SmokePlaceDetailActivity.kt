@@ -1,94 +1,42 @@
 package com.kapstone.mannersmoker.ui.map
 
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.os.Bundle
 import android.os.Parcelable
-import android.util.Log
 import android.widget.Toast
-import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
-import androidx.core.os.bundleOf
-import androidx.fragment.app.Fragment
-import androidx.navigation.NavOptions
-import androidx.navigation.fragment.findNavController
-import com.bumptech.glide.Glide
 import com.kapstone.mannersmoker.R
-import com.kapstone.mannersmoker.base.BaseFragment
-import com.kapstone.mannersmoker.databinding.BallonLayoutBinding
-import com.kapstone.mannersmoker.databinding.FragmentSmokePlaceDetailBinding
-import com.kapstone.mannersmoker.ui.main.findNavControllerSafely
+import com.kapstone.mannersmoker.base.BaseActivity2
+import com.kapstone.mannersmoker.databinding.ActivitySmokePlaceDetailBinding
 import kotlinx.android.parcel.Parcelize
-import net.daum.mf.map.api.MapPoint
-import kotlin.math.roundToInt
 
-class SmokePlaceDetailFragment : BaseFragment<FragmentSmokePlaceDetailBinding>() {
-
-    private val callback = object : OnBackPressedCallback(true) {
-        override fun handleOnBackPressed() {
-            // 뒤로가기 버튼 막아서 카카오맵 검은색으로 되는 문제 해결
-        }
-    }
-
-    companion object {
-        private const val NAV_ID = R.id.action_go_to_smoke_place_detail
-
-        fun start(
-            fragment: Fragment,
-            argument: Argument,
-            navOptions: NavOptions? = null
-        ) {
-            try { // 다른 프래그먼트에서 start 함수를 호출하면, 해당 프래그먼트에 정의된 이동 경로를 찾아 이동
-                fragment.findNavController().navigate(
-                    // bundleOf로 넘어온 값을 저장할 수 있다. Argument 타입은 밑에 있음
-                    NAV_ID, bundleOf("argument" to argument), navOptions
-                )
-            } catch (e: Exception) {
-                Log.d("SmokePlaceDetail" , "error : $e")
-            }
-        }
-    }
-
-    @Parcelize
-    data class Argument ( // Fragment가 전달받을 데이터
-        val currentLatitude : Double,
-        val currentLongtitude : Double,
-        val smokePlaceLatitude : Double,
-        val smokePlaceLongtitude : Double,
-        val smokePlaceImage : String,
-        val smokePlaceName : String,
-        val smokePlaceAddress : String,
-        val distance : String
-    ) : Parcelable
-
-    private val argument: Argument by lazy {
-        arguments?.getParcelable<Argument>("argument") // ScreenSlidePagerAdapter에서 bundleOf에 argument라는 키로 값 저장한 것 불러오기
-            ?: throw IllegalArgumentException("Argument must exist")
-    }
+class SmokePlaceDetailActivity : BaseActivity2<ActivitySmokePlaceDetailBinding>() {
 
     override val layoutResourceId: Int
-        get() = R.layout.fragment_smoke_place_detail
+        get() = R.layout.activity_smoke_place_detail
+
+    private lateinit var smokePlaceData: SmokePlaceData
 
     override fun initStartView() {
        /* Glide.with(binding.root)
             .load(argument.smokePlaceImage)
             .error(R.drawable.smoke)
             .into(binding.smokePlaceImage) */
-        binding.smokePlaceName.text = argument.smokePlaceName
-        binding.smokePlaceAddress.text = argument.smokePlaceAddress
-        binding.distanceFromCurrentPlace.text = argument.distance
+        smokePlaceData = intent.getParcelableExtra("smokePlaceData")!!
+        binding.smokePlaceName.text = smokePlaceData.smokePlaceName
+        binding.smokePlaceAddress.text = smokePlaceData.smokePlaceAddress
+        binding.distanceFromCurrentPlace.text = smokePlaceData.distance
 
         binding.goToFindDestination.setOnClickListener {
-            showDialog(argument.smokePlaceLatitude, argument.smokePlaceLongtitude)
+            showDialog(smokePlaceData.smokePlaceLatitude, smokePlaceData.smokePlaceLongtitude)
         }
         binding.goToFindDestinationCancel.setOnClickListener {
-            findNavControllerSafely()?.navigate(R.id.action_go_to_main)
+            finish()
         }
     }
 
     private fun showDialog(lat : Double, lon : Double) {
-        val dialog = MapDialog(requireContext())
+        val dialog = MapDialog(this)
         dialog.setAcceptBtnClickListener {
             showVehicleChoice(lat, lon)
         }
@@ -96,7 +44,7 @@ class SmokePlaceDetailFragment : BaseFragment<FragmentSmokePlaceDetailBinding>()
     }
 
     private fun showVehicleChoice(lat : Double, lon : Double) {
-        val builder = AlertDialog.Builder(requireContext())
+        val builder = AlertDialog.Builder(this)
         val itemList = arrayOf("자동차", "대중교통", "도보")
         builder.setTitle("이동 수단을 선택하세요.")
         builder.setItems(itemList) { dialog, which ->
@@ -115,13 +63,13 @@ class SmokePlaceDetailFragment : BaseFragment<FragmentSmokePlaceDetailBinding>()
                 try {
                     val intent = Intent(
                         Intent.ACTION_VIEW, Uri.parse(
-                            "kakaomap://route?sp=${argument.currentLatitude},${argument.currentLongtitude}&ep=${destinationLat},${destinationLon}&by=CAR"
+                            "kakaomap://route?sp=${smokePlaceData.currentLatitude},${smokePlaceData.currentLongtitude}&ep=${destinationLat},${destinationLon}&by=CAR"
                         )
                     )
                     startActivity(intent)
                 } catch (e: Exception) {
                     Toast.makeText(
-                        requireContext(),
+                        this,
                         "카카오맵이 설치되어 있지 않습니다. 설치 화면으로 이동합니다.",
                         Toast.LENGTH_SHORT
                     ).show();
@@ -135,13 +83,13 @@ class SmokePlaceDetailFragment : BaseFragment<FragmentSmokePlaceDetailBinding>()
                 try {
                     val intent = Intent(
                         Intent.ACTION_VIEW, Uri.parse(
-                            "kakaomap://route?sp=${argument.currentLatitude},${argument.currentLongtitude}&ep=${destinationLat},${destinationLon}&by=PUBLICTRANSIT"
+                            "kakaomap://route?sp=${smokePlaceData.currentLatitude},${smokePlaceData.currentLongtitude}&ep=${destinationLat},${destinationLon}&by=PUBLICTRANSIT"
                         )
                     )
                     startActivity(intent)
                 } catch (e: Exception) {
                     Toast.makeText(
-                        requireContext(),
+                        this,
                         "카카오맵이 설치되어 있지 않습니다. 설치 화면으로 이동합니다.",
                         Toast.LENGTH_SHORT
                     ).show();
@@ -155,13 +103,13 @@ class SmokePlaceDetailFragment : BaseFragment<FragmentSmokePlaceDetailBinding>()
                 try {
                     val intent = Intent(
                         Intent.ACTION_VIEW, Uri.parse(
-                            "kakaomap://route?sp=${argument.currentLatitude},${argument.currentLongtitude}&ep=${destinationLat},${destinationLon}&by=FOOT"
+                            "kakaomap://route?sp=${smokePlaceData.currentLatitude},${smokePlaceData.currentLongtitude}&ep=${destinationLat},${destinationLon}&by=FOOT"
                         )
                     )
                     startActivity(intent)
                 } catch (e: Exception) {
                     Toast.makeText(
-                        requireContext(),
+                        this,
                         "카카오맵이 설치되어 있지 않습니다. 설치 화면으로 이동합니다.",
                         Toast.LENGTH_SHORT
                     ).show();
@@ -174,13 +122,20 @@ class SmokePlaceDetailFragment : BaseFragment<FragmentSmokePlaceDetailBinding>()
         }
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        requireActivity().onBackPressedDispatcher.addCallback(this, callback);
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        callback.remove()
+    override fun onBackPressed() {
+        super.onBackPressed()
+        finish()
     }
 }
+
+@Parcelize
+data class SmokePlaceData (
+    val currentLatitude : Double,
+    val currentLongtitude : Double,
+    val smokePlaceLatitude : Double,
+    val smokePlaceLongtitude : Double,
+    val smokePlaceImage : String,
+    val smokePlaceName : String,
+    val smokePlaceAddress : String,
+    val distance : String
+) : Parcelable

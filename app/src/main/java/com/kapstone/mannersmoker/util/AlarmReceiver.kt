@@ -11,7 +11,7 @@ import android.os.Build
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.kapstone.mannersmoker.R
-import com.kapstone.mannersmoker.ui.MainActivity
+import com.kapstone.mannersmoker.ui.main.MainActivity
 import com.kapstone.mannersmoker.util.PreferencesManager.alarm_daily_smoke
 
 class AlarmReceiver : BroadcastReceiver() {

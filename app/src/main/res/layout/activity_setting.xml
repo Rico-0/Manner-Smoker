@@ -8,8 +8,8 @@
             name="isSettingDailySmoke"
             type="Boolean" />
         <variable
-            name="settingFragment"
-            type="com.kapstone.mannersmoker.ui.my.SettingFragment" />
+            name="settingActivity"
+            type="com.kapstone.mannersmoker.ui.my.SettingActivity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -193,7 +193,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="50dp"
-                android:onClick="@{() -> settingFragment.onClickDailySmokeSwitch()}"
+                android:onClick="@{() -> settingActivity.onClickDailySmokeSwitch()}"
                 android:layout_toRightOf="@+id/alarm_daily_smoke_text" />
 
         </RelativeLayout>
@@ -206,14 +206,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:text="매일 오전 9시에 흡연량 설정 알림이 전송됩니다." />
-
-
-
-
-
-
-
-
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

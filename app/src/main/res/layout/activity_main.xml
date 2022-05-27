@@ -3,33 +3,414 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-
-    <!--
-    fileSystemWindows:
-    뷰가 차지할 수 있는 영역을 상태바 및 소프트키 영역을 제외한 영역까지 확장해주는 역할.
-    하지만 View는 패딩을 추가해서 childView를 inset 안으로 이동시킴
-    -->
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/Login_layout"
+        android:id="@+id/activity_main_root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
-        tools:context=".ui.MainActivity">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <!-- mainfragment를 포함한 다른 fragment들이 들어가는 곳 -->
-        <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/fcv_main_fragment_container"
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/main_viewPager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="parent"/>
 
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/main_tablayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:tabGravity="fill"
+            app:tabIndicatorColor="@color/design_default_color_primary"
+            app:tabMode="fixed">
 
-            android:name="androidx.navigation.fragment.NavHostFragment"
-            app:defaultNavHost="true"
-            app:navGraph="@navigation/nav_graph" />
+        </com.google.android.material.tabs.TabLayout>
+
+        <!--     <ImageView
+                 android:id="@+id/badge_icon"
+                 android:layout_width="100dp"
+                 android:layout_height="100dp"
+                 android:src="@drawable/badge"
+                 app:layout_constraintEnd_toEndOf="parent"
+                 app:layout_constraintStart_toStartOf="parent"
+                 app:layout_constraintTop_toTopOf="parent" />
+
+             <ProgressBar
+                 android:id="@+id/progressBar"
+                 style="?android:attr/progressBarStyleHorizontal"
+                 android:layout_width="100dp"
+                 android:layout_height="wrap_content"
+                 app:layout_constraintEnd_toEndOf="parent"
+                 app:layout_constraintStart_toStartOf="parent"
+                 app:layout_constraintTop_toBottomOf="@id/badge_icon"
+                 tools:progress="50" />
+
+             <TextView
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:text="다음 레벨까지 n일 금연"
+                 android:textSize="10dp"
+                 android:textStyle="bold"
+                 app:layout_constraintEnd_toEndOf="parent"
+                 app:layout_constraintStart_toStartOf="parent"
+                 app:layout_constraintTop_toBottomOf="@id/progressBar" />
+
+
+             <TextView
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_marginLeft="10dp"
+                 android:text="LV4"
+                 android:textSize="10dp"
+                 android:textStyle="bold"
+                 app:layout_constraintStart_toEndOf="@id/progressBar"
+                 app:layout_constraintTop_toBottomOf="@id/badge_icon" />
+
+         </androidx.constraintlayout.widget.ConstraintLayout>
+
+         <LinearLayout
+             android:id="@+id/smoke_week_list"
+             android:layout_width="300dp"
+             android:layout_height="wrap_content"
+             android:layout_marginVertical="30dp"
+             android:orientation="vertical"
+             app:layout_constraintEnd_toEndOf="parent"
+             app:layout_constraintStart_toStartOf="parent"
+             app:layout_constraintTop_toBottomOf="@id/level_view"
+             android:padding="10dp"
+             android:background="#EFF1F1">
+
+             <LinearLayout
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:orientation="horizontal">
+
+                 <TextView
+                     android:layout_width="0dp"
+                     android:layout_height="30dp"
+                     android:layout_weight="1"
+                     android:gravity="center"
+                     android:text="오늘"
+                     android:textSize="18sp" />
+
+                 <TextView
+                     android:layout_width="0dp"
+                     android:layout_height="30dp"
+                     android:layout_weight="1"
+                     android:gravity="center"
+                     android:text="5개비"
+                     android:textSize="18sp" />
+
+                 <ImageView
+                     android:layout_width="0dp"
+                     android:layout_height="30dp"
+                     android:layout_weight="1"
+                     android:src="@drawable/one" />
+             </LinearLayout>
+
+             <LinearLayout
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:orientation="horizontal"
+                 android:layout_marginTop="10dp">
+
+                 <TextView
+                     android:layout_width="0dp"
+                     android:layout_height="30dp"
+                     android:layout_weight="1"
+                     android:gravity="center"
+                     android:text="화"
+                     android:textSize="18sp" />
+
+                 <TextView
+                     android:layout_width="0dp"
+                     android:layout_height="30dp"
+                     android:layout_weight="1"
+                     android:gravity="center"
+                     android:text="6개비"
+                     android:textSize="18sp" />
+
+                 <ImageView
+                     android:layout_width="0dp"
+                     android:layout_height="30dp"
+                     android:layout_weight="1"
+                     android:src="@drawable/two" />
+
+             </LinearLayout>
+
+             <LinearLayout
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:orientation="horizontal"
+                 android:layout_marginTop="10dp">
+
+                 <TextView
+                     android:layout_width="0dp"
+                     android:layout_height="30dp"
+                     android:layout_weight="1"
+                     android:gravity="center"
+                     android:text="수"
+                     android:textSize="18sp" />
+
+                 <TextView
+                     android:layout_width="0dp"
+                     android:layout_height="30dp"
+                     android:layout_weight="1"
+                     android:gravity="center"
+                     android:text="10개비"
+                     android:textSize="18sp" />
+
+                 <ImageView
+                     android:layout_width="0dp"
+                     android:layout_height="30dp"
+                     android:layout_weight="1"
+                     android:src="@drawable/three" />
+
+             </LinearLayout>
+
+             <LinearLayout
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:orientation="horizontal"
+                 android:layout_marginTop="10dp">
+
+                 <TextView
+                     android:layout_width="0dp"
+                     android:layout_height="30dp"
+                     android:layout_weight="1"
+                     android:gravity="center"
+                     android:text="목"
+                     android:textSize="18sp" />
+
+                 <TextView
+                     android:layout_width="0dp"
+                     android:layout_height="30dp"
+                     android:layout_weight="1"
+                     android:gravity="center"
+                     android:text="12개비"
+                     android:textSize="18sp" />
+
+                 <ImageView
+                     android:layout_width="0dp"
+                     android:layout_height="30dp"
+                     android:layout_weight="1"
+                     android:src="@drawable/four" />
+
+             </LinearLayout>
+
+             <LinearLayout
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:orientation="horizontal"
+                 android:layout_marginTop="10dp">
+
+                 <TextView
+                     android:layout_width="0dp"
+                     android:layout_height="30dp"
+                     android:layout_weight="1"
+                     android:gravity="center"
+                     android:text="금"
+                     android:textSize="18sp" />
+
+                 <TextView
+                     android:layout_width="0dp"
+                     android:layout_height="30dp"
+                     android:layout_weight="1"
+                     android:gravity="center"
+                     android:text="15개비"
+                     android:textSize="18sp" />
+
+                 <ImageView
+                     android:layout_width="0dp"
+                     android:layout_height="30dp"
+                     android:layout_weight="1"
+                     android:src="@drawable/five" />
+
+             </LinearLayout>
+
+             <LinearLayout
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:orientation="horizontal"
+                 android:layout_marginTop="10dp">
+
+                 <TextView
+                     android:layout_width="0dp"
+                     android:layout_height="30dp"
+                     android:layout_weight="1"
+                     android:gravity="center"
+                     android:text="토"
+                     android:textSize="18sp" />
+
+                 <TextView
+                     android:layout_width="0dp"
+                     android:layout_height="30dp"
+                     android:layout_weight="1"
+                     android:gravity="center"
+                     android:text="18개비"
+                     android:textSize="18sp" />
+
+                 <ImageView
+                     android:layout_width="0dp"
+                     android:layout_height="30dp"
+                     android:layout_weight="1"
+                     android:src="@drawable/six" />
+
+             </LinearLayout>
+
+             <LinearLayout
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:orientation="horizontal"
+                 android:layout_marginTop="10dp">
+
+                 <TextView
+                     android:layout_width="0dp"
+                     android:layout_height="30dp"
+                     android:layout_weight="1"
+                     android:gravity="center"
+                     android:text="일"
+                     android:textSize="18sp" />
+
+                 <TextView
+                     android:layout_width="0dp"
+                     android:layout_height="30dp"
+                     android:layout_weight="1"
+                     android:gravity="center"
+                     android:text="20개비"
+                     android:textSize="18sp" />
+
+                 <ImageView
+                     android:layout_width="0dp"
+                     android:layout_height="30dp"
+                     android:layout_weight="1"
+                     android:src="@drawable/seven" />
+
+             </LinearLayout>
+
+         </LinearLayout>
+
+
+         <LinearLayout
+             android:id="@+id/menu_bar"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:orientation="horizontal"
+             app:layout_constraintBottom_toBottomOf="parent"
+             app:layout_constraintEnd_toEndOf="parent"
+             app:layout_constraintStart_toStartOf="parent">
+
+             <LinearLayout
+                 android:layout_width="0dp"
+                 android:layout_height="wrap_content"
+                 android:layout_weight="1"
+                 android:gravity="center"
+                 android:orientation="vertical"
+                 android:padding="5dp">
+
+                 <ImageView
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:scaleType="centerCrop"
+                     android:src="@drawable/location" />
+
+                 <TextView
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:text="Map" />
+             </LinearLayout>
+
+             <LinearLayout
+                 android:layout_width="0dp"
+                 android:layout_height="wrap_content"
+                 android:layout_weight="1"
+                 android:gravity="center"
+                 android:orientation="vertical"
+                 android:padding="5dp">
+
+                 <ImageView
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:scaleType="centerCrop"
+                     android:src="@drawable/community" />
+
+                 <TextView
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:text="Community" />
+             </LinearLayout>
+
+             <LinearLayout
+                 android:layout_width="0dp"
+                 android:layout_height="wrap_content"
+                 android:layout_weight="1"
+                 android:gravity="center"
+                 android:orientation="vertical"
+                 android:padding="5dp">
+
+                 <ImageView
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:scaleType="centerCrop"
+                     android:src="@drawable/home" />
+
+                 <TextView
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:text="Home" />
+             </LinearLayout>
+
+             <LinearLayout
+                 android:layout_width="0dp"
+                 android:layout_height="wrap_content"
+                 android:layout_weight="1"
+                 android:gravity="center"
+                 android:orientation="vertical"
+                 android:padding="5dp">
+
+                 <ImageView
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:scaleType="centerCrop"
+                     android:src="@drawable/news" />
+
+                 <TextView
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:text="News" />
+             </LinearLayout>
+
+             <LinearLayout
+                 android:layout_width="0dp"
+                 android:layout_height="wrap_content"
+                 android:layout_weight="1"
+                 android:gravity="center"
+                 android:orientation="vertical"
+                 android:padding="5dp">
+
+                 <ImageView
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:scaleType="centerCrop"
+                     android:src="@drawable/my" />
+
+                 <TextView
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:text="My" />
+             </LinearLayout>
+
+
+         </LinearLayout> -->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>

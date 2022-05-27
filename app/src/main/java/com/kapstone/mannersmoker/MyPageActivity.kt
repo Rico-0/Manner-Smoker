@@ -14,13 +14,10 @@ import com.bumptech.glide.Glide
 import com.kakao.sdk.user.UserApiClient
 //import com.kapstone.mannersmoker.databinding.ActivityMypageBinding
 import com.kapstone.mannersmoker.util.ClickUtil
-import com.kapstone.mannersmoker.util.PreferencesManager.user_name
-import com.kapstone.mannersmoker.util.PreferencesManager.user_profile_image_url
-import com.kapstone.mannersmoker.util.PreferencesManager.is_guest
 
 class MyPageActivity : AppCompatActivity() {
-/*
-    private lateinit var binding: ActivityMypageBinding
+
+  /*  private lateinit var binding: ActivityMypageBinding
     private var kakaoLogin: Boolean = false
 
     // private var naverLogin : Boolean = intent.getBooleanExtra("naverLogin", false)
@@ -158,7 +155,7 @@ class MyPageActivity : AppCompatActivity() {
         is_guest = !is_guest
         startActivity(intent.addFlags(FLAG_ACTIVITY_CLEAR_TOP))
         finish()
-    } */
+    }   */
 }
 
 

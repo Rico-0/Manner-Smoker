@@ -1,6 +1,7 @@
 package com.kapstone.mannersmoker.ui.map
 
 import android.content.Context
+import android.content.Intent
 import android.location.Location
 import android.location.LocationManager
 import android.util.Log
@@ -14,12 +15,12 @@ import com.kapstone.mannersmoker.databinding.BallonLayoutBinding
 import com.kapstone.mannersmoker.databinding.FragmentMapBinding
 import com.kapstone.mannersmoker.model.data.Place
 import com.kapstone.mannersmoker.model.data.Places.places
-import com.kapstone.mannersmoker.ui.map.SmokePlaceDetailFragment
 import com.kapstone.mannersmoker.util.LocationDistance
 import com.kapstone.mannersmoker.util.NetworkConnection
 import com.kapstone.mannersmoker.util.PermissionUtil
 import kotlinx.android.synthetic.main.ballon_layout.view.*
 import net.daum.mf.map.api.*
+import java.security.Permission
 
 class MapFragment : BaseFragment<FragmentMapBinding>(), MapView.CurrentLocationEventListener,
     MapView.MapViewEventListener {
@@ -54,21 +55,23 @@ class MapFragment : BaseFragment<FragmentMapBinding>(), MapView.CurrentLocationE
                 val mapPoint = poiItem?.mapPoint!!
                 val placeData = poiItem.itemName // 여기에 정보 들어감 (순서대로 이미지 주소, 장소 이름, 장소 주소)
                 val placeDataResult = placeData.split(",") // 따옴표로 결과 분리
-                click.run {
-                    SmokePlaceDetailFragment.start(
-                        fragment = this@MapFragment,
-                        argument = SmokePlaceDetailFragment.Argument(
-                            currentLatitude = currentMapPoint?.mapPointGeoCoord?.latitude!!,
-                            currentLongtitude = currentMapPoint?.mapPointGeoCoord?.longitude!!,
-                            smokePlaceLatitude = mapPoint.mapPointGeoCoord.latitude,
-                            smokePlaceLongtitude = mapPoint.mapPointGeoCoord.longitude,
-                            smokePlaceImage = placeDataResult[0],
-                            smokePlaceName = placeDataResult[1],
-                            smokePlaceAddress = placeDataResult[2],
-                            distance = getSmokePlaceDistanceFromCurrent(mapPoint)
-                        )
-                    )
+
+                val smokePlaceData = SmokePlaceData (
+                    currentLatitude = currentMapPoint?.mapPointGeoCoord?.latitude!!,
+                    currentLongtitude = currentMapPoint?.mapPointGeoCoord?.longitude!!,
+                    smokePlaceLatitude = mapPoint.mapPointGeoCoord.latitude,
+                    smokePlaceLongtitude = mapPoint.mapPointGeoCoord.longitude,
+                    smokePlaceImage = placeDataResult[0],
+                    smokePlaceName = placeDataResult[1],
+                    smokePlaceAddress = placeDataResult[2],
+                    distance = getSmokePlaceDistanceFromCurrent(mapPoint)
+                )
+                val intent = Intent(requireActivity(), SmokePlaceDetailActivity::class.java).apply {
+                    putExtra("smokePlaceData", smokePlaceData)
                 }
+                startActivity(intent)
+            } else if (poiItem?.markerType == MapPOIItem.MarkerType.RedPin) {
+                poiItem.itemName = currentLocationAddress ?: "현재 위치 받아오기에 실패하였습니다."
             }
         }
 
@@ -91,6 +94,8 @@ class MapFragment : BaseFragment<FragmentMapBinding>(), MapView.CurrentLocationE
             MapView.CurrentLocationTrackingMode.TrackingModeOff
         mapView.setPOIItemEventListener(markerListener)
         ballonBinding = DataBindingUtil.inflate(layoutInflater, R.layout.ballon_layout, null, false)
+
+        PermissionUtil.checkBackgroundLocationPermission(requireActivity())
 
         checkNetworkConnection()
         startTracking()
@@ -126,7 +131,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(), MapView.CurrentLocationE
             val connection = NetworkConnection(requireActivity())
             connection.observe(this, Observer { isConnected ->
                 if (!isConnected) {
-
+                    Toast.makeText(requireContext(), "지도 로드에 실패하였습니다. 인터넷에 연결해 주세요.", Toast.LENGTH_LONG).show()
                 } else {
                     // 현재 위치로 지도 중심 이동
                     mapView.setMapCenterPoint(currentMapPoint, true)
@@ -134,7 +139,8 @@ class MapFragment : BaseFragment<FragmentMapBinding>(), MapView.CurrentLocationE
             })
         }
         binding.addNewPlace.setOnClickListener {
-            this@MapFragment.findNavController().navigate(R.id.action_go_to_add_new_smoke_place)
+            val intent = Intent(requireActivity(), AddNewSmokePlaceActivity::class.java)
+            startActivity(intent)
         }
     }
 
@@ -155,7 +161,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(), MapView.CurrentLocationE
     private fun getCurrentMapPoint(): MapPoint {
         PermissionUtil.checkForgroundLocationPermission(requireActivity())
         val lm: LocationManager = requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        val userNowLocation: Location? = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+        val userNowLocation: Location? = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
         // 위도, 경도
         val uLatitude = userNowLocation?.latitude
         val uLongtitude = userNowLocation?.longitude
@@ -193,7 +199,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(), MapView.CurrentLocationE
         // val placeData : String = place.address + " " + place.name + ... (데이터 전부 공백 단위로 묶어서 문자열로 붙인 다음 Name으로 설정)
         marker.apply {
             // itemName : 흡연 구역 이미지 파일명, 흡연 구역 이름, 흡연 구역 주소
-            itemName = ",경기대학교 복지관 앞,경기도 수원시 권선구 13-5" // placeData
+            itemName = ",수원버스터미널 앞,경기도 수원시 권선구 경수대로 270" // placeData
             mapPoint = convertPlaceToMapPoint(place.latitude, place.longitude)
             markerType = setMarkerColor(place)
         }

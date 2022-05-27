@@ -1,7 +1,8 @@
 package com.kapstone.mannersmoker.model.data
 
+import java.util.*
+
 data class DailySmoke(
-    var date : String,
-    var smokeCount : Int,
-    var smokeIcon : String
+    var date : Calendar,
+    var smokeCount : Int
 )

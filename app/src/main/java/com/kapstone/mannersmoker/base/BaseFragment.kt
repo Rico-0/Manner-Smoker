@@ -1,15 +1,13 @@
 package com.kapstone.mannersmoker.base
 
 import android.content.Context
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.*
-import androidx.activity.OnBackPressedCallback
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
-import com.kapstone.mannersmoker.ui.MainActivity
+import com.kapstone.mannersmoker.ui.main.MainActivity
 import com.kapstone.mannersmoker.util.ClickUtil
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
@@ -67,15 +65,16 @@ abstract class BaseFragment<T : ViewDataBinding> : Fragment() {
         // 프래그먼트 뷰가 생성될 때 데이터 바인딩
         binding = DataBindingUtil.inflate(inflater, layoutResourceId, container, false)
         binding.lifecycleOwner = this
+        initStartView()
         // 의존성 주입
        // viewModelFactory = Injection.provideViewModelFactory(activity as Context)
-        initStartView()
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         Log.d(TAG, "++onViewCreated!!!")
+
     }
 
     override fun onStart() {

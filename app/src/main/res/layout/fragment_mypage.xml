@@ -3,12 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- <data>
-         <import type="android.view.View"/>
-         <variable
-             name="isLogin"
-             type="Boolean" />
-     </data> -->
     <!--  android:visibility="@{isLogin ? View.VISIBLE : View.GONE}" -->
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -38,8 +32,6 @@
                     android:layout_height="50dp"
                     android:background="@drawable/user_background"
                     android:src="@drawable/my" />
-
-                <!-- Todo : 뱃지 아이콘 -->
 
             </FrameLayout>
 
@@ -88,16 +80,6 @@
                     android:text="카카오 로그인" />
 
                 <TextView
-                    android:id="@+id/need_to_login"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="45dp"
-                    android:layout_marginTop="55dp"
-                    android:layout_toRightOf="@id/login_type_icon"
-                    android:text="로그인이 필요합니다."
-                    android:visibility="gone" />
-
-                <TextView
                     android:id="@+id/logout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -117,60 +99,9 @@
 
             </RelativeLayout>
 
-
-
         </LinearLayout>
 
-        <!-- 로그인 상태가 아닐 시 로그인 안내 -->
-        <LinearLayout
-            android:id="@+id/login_info"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="100dp"
-            app:layout_constraintTop_toBottomOf="@id/user_profile"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:clickable="true"
-            android:visibility="gone"
-            android:padding="20dp">
 
-            <LinearLayout
-                android:id="@+id/login_info_icon_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="25sp"
-                    android:layout_height="25sp"
-                    android:src="@drawable/warning_not_login" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="앗! 현재 로그인 상태가 아니셔서 \n개인 맞춤형 기능을 사용할 수 없어요.\n다양한 기능을 이용하시려면 로그인해 주세요 :)"
-                    android:textSize="17sp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_gravity="center" />
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/login_button_later"
-                android:layout_width="300dp"
-                android:layout_height="40dp"
-                android:background="@drawable/profile_edit_background"
-                android:textStyle="bold"
-                android:textColor="@color/white"
-                android:gravity="center"
-                android:layout_gravity="center"
-                android:layout_marginTop="15dp"
-                android:text="로그인하러 가기 >"/>
-
-        </LinearLayout>
-
-        <!-- 로그인 후 이용 가능한 기능 -->
         <LinearLayout
             android:id="@+id/user_menu"
             android:layout_width="match_parent"
@@ -283,121 +214,8 @@
                     android:src="@drawable/smoke_icon" />
             </RelativeLayout>
 
-
-
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/menu_bar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:padding="5dp">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/location" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Map" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:padding="5dp">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/community" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Community" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:padding="5dp">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/home" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Home" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:padding="5dp">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/news" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="News" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:padding="5dp">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/my" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="My" />
-            </LinearLayout>
-
-
-        </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>
