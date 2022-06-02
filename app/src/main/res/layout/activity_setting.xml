@@ -107,15 +107,62 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:text="일일 흡연량은 매일 한 번만 설정할 수 있습니다." />
 
+        <LinearLayout
+            android:id="@+id/set_first_smoke_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/description_set_smoke"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:padding="20dp">
 
+            <ImageView
+                android:id="@+id/smoke_icon2"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:src="@drawable/smoke_icon"/>
+
+            <TextView
+                android:id="@+id/first_smoke_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="흡연 시작일 설정"
+                android:textStyle="bold"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:textSize="20sp"/>
+
+            <TextView
+                android:id="@+id/set_first_smoke_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="설정하기"
+                android:textStyle="bold"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/profile_edit_background"
+                android:padding="10dp"
+                android:textColor="@color/white"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/set_first_smoke_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="변경된 날짜 이전의 흡연 시 사용한 금액은 차감됩니다."
+            android:layout_marginTop="5dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/set_first_smoke_layout" />
 
         <RelativeLayout
             android:id="@+id/alarm_smoke_place_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/daily_smoke_layout"
+            app:layout_constraintTop_toBottomOf="@id/set_first_smoke_description"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="80dp"
+            android:layout_marginTop="20dp"
             android:layout_marginLeft="20dp"
             android:padding="20dp">
 
@@ -155,17 +202,16 @@
             app:layout_constraintTop_toBottomOf="@id/alarm_smoke_place_layout"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginLeft="30dp"
             android:text="현재 위치가 등록된 흡연 구역 근처일 경우 알려줍니다." />
 
         <RelativeLayout
             android:id="@+id/alarm_daily_smoke_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/alarm_smoke_place_layout"
+            app:layout_constraintTop_toBottomOf="@id/description_alarm_smoke_place"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="20dp"
             android:padding="20dp">
 
             <ImageView
@@ -203,8 +249,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/alarm_daily_smoke_layout"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/description_alarm_smoke_place"
             android:text="매일 오전 9시에 흡연량 설정 알림이 전송됩니다." />
 
 

@@ -1,17 +1,17 @@
 package com.kapstone.mannersmoker.util
 
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.PendingIntent
+import android.app.*
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.media.RingtoneManager
 import android.os.Build
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.kapstone.mannersmoker.R
 import com.kapstone.mannersmoker.ui.main.MainActivity
+import com.kapstone.mannersmoker.ui.map.MapFragment
 import com.kapstone.mannersmoker.util.PreferencesManager.alarm_daily_smoke
 
 class AlarmReceiver : BroadcastReceiver() {
@@ -19,7 +19,6 @@ class AlarmReceiver : BroadcastReceiver() {
     companion object {
         const val TAG = "AlarmReceiver"
         const val DAILY_SMOKE_NOTIFICATION_ID = 0
-        const val NEAR_TO_SMOKE_PLACE_NOTIFICATION_ID = 1
         // 안드로이드 오레오 이전까지는 채널 생성을 하지 않아도 Notification을 띄울 수 있었지만 이후부턴 Channel을 생성한 뒤 Channel ID를 부여해야 한다.
         // 앱에 대해 단 한번만 생성하면 되고 이후 재호출 해도 같은 Paramerter에 대해 어떠한 동작을 하지 않으므로 재호출해도 된다.
         const val PRIMARY_CHANNEL_ID = "primary_notification_channel"
@@ -62,6 +61,7 @@ class AlarmReceiver : BroadcastReceiver() {
                 "Stand up notification",
                 NotificationManager.IMPORTANCE_HIGH
             )
+            notificationChannel.lockscreenVisibility = Notification.VISIBILITY_PUBLIC
             notificationChannel.enableLights(true)
             notificationChannel.lightColor = Color.RED
             notificationChannel.enableVibration(true)

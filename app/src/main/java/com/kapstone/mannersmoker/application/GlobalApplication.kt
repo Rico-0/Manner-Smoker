@@ -1,22 +1,32 @@
 package com.kapstone.mannersmoker.application
 
 import android.app.Application
-import android.content.Intent
+import android.app.ProgressDialog
 import android.content.SharedPreferences
+import android.os.AsyncTask
 import android.util.Log
-import android.widget.Toast
+import android.view.View
+import androidx.databinding.DataBindingUtil
 import com.kakao.sdk.common.KakaoSdk
-import com.kakao.sdk.user.UserApiClient
-import com.kapstone.mannersmoker.model.data.DailySmokeData
-import com.kapstone.mannersmoker.model.data.Place
-import com.kapstone.mannersmoker.model.data.Places.places
-import com.kapstone.mannersmoker.ui.main.MainActivity
+import com.kapstone.mannersmoker.databinding.ProgressbarLayoutBinding
+import com.kapstone.mannersmoker.model.data.RetrofitInstance
+import com.kapstone.mannersmoker.model.data.SmokeAreaDataClass
+import com.kapstone.mannersmoker.model.data.SmokeAreaModel
+import com.kapstone.mannersmoker.model.data.SmokeAreaModels
+import com.kapstone.mannersmoker.model.data.SmokeAreaModels.allSmokeAreaList
+import com.kapstone.mannersmoker.model.db.dao.SmokeDao
 import com.kapstone.mannersmoker.ui.my.SettingActivity.Companion.isPassedOneDay
 import com.kapstone.mannersmoker.util.FILENAME
-import com.kapstone.mannersmoker.util.PreferencesManager
-import com.kapstone.mannersmoker.util.PreferencesManager.is_logged_in_before
+import com.kapstone.mannersmoker.util.PreferencesManager.daily_smoke
+import com.kapstone.mannersmoker.util.PreferencesManager.is_setted_daily_smoke
+import com.kapstone.mannersmoker.util.PreferencesManager.today_smoke_amount
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class GlobalApplication : Application() {
+
+    private lateinit var smokeDao: SmokeDao
 
     companion object {
         var instance : GlobalApplication? = null
@@ -35,42 +45,16 @@ class GlobalApplication : Application() {
         instance = this
         KakaoSdk.init(this, "d1134cd947745b49f0d8c93f0dd4fe81")
         prefs = getSharedPreferences(FILENAME, 0) // 사용자 설정값을 얻어옴
-        initLocations()
-        if (isPassedOneDay())
-            DailySmokeData.isSettedDailySmoke = !DailySmokeData.isSettedDailySmoke
-
-        // 카카오 토큰 확인
-        UserApiClient.instance.accessTokenInfo { tokenInfo, error ->
-            if (error != null) {
-                Log.d("ApplicationClass", "카카오 토큰 확인 중 에러 발생 : $error")
-                return@accessTokenInfo
-            } else if (tokenInfo == null && is_logged_in_before) {
-                Toast.makeText(
-                    this,
-                    "사용자 토큰이 만료되어 재로그인이 필요합니다.",
-                    Toast.LENGTH_LONG
-                ).show()
-                return@accessTokenInfo
-            } else if (tokenInfo != null) { // 유효한 토큰 존재
-                is_logged_in_before = true
-                Log.d("ApplicationClass", "토큰 상태 : 유효")
-            } else if (tokenInfo == null) {
-                Log.d("ApplicationClass", "카카오 토큰 정보 존재하지 않음")
-                return@accessTokenInfo
-            }
+        if (isPassedOneDay()) {
+            is_setted_daily_smoke = !is_setted_daily_smoke
+            today_smoke_amount = 0
+            daily_smoke = 10
         }
     }
 
     override fun onTerminate() {
         super.onTerminate()
         instance = null
-    }
-
-    // Todo : places 데이터에 백엔드에서 불러올 것
-    private fun initLocations() {
-        places.add(
-            Place(37.25108002,127.0198291, "")
-        )
     }
 
 }

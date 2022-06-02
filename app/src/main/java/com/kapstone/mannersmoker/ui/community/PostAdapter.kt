@@ -5,7 +5,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.kapstone.mannersmoker.databinding.ItemCommunityPostBinding
 import com.kapstone.mannersmoker.model.data.Post
-import com.kapstone.mannersmoker.util.DateUtil.convertDateToString
 
 class PostAdapter : RecyclerView.Adapter<PostAdapter.ViewHolder>() {
 
@@ -15,9 +14,8 @@ class PostAdapter : RecyclerView.Adapter<PostAdapter.ViewHolder>() {
         fun bindView(post : Post) {
             // binding.userprofileimage ...
             binding.postUserName.text = post.user_name
-            binding.postUserDate.text = convertDateToString(post.date)
+            binding.postUserTitle.text = post.title
             binding.postUserContent.text = post.content
-            // binding. like, comment
         }
     }
     //만들어진 뷰홀더 없을때 뷰홀더(레이아웃) 생성하는 함수

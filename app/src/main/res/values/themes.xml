@@ -13,5 +13,13 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
         <item name="windowNoTitle">true</item>
+        <!-- 로딩 화면 수정 -->
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <!--custom font-family 적용-->
+        <item name="android:fontFamily">@font/nanumbarunpen</item>
+    </style>
+    <style name="ArrowStyle" >
+        <item name="android:tint">@color/black</item>
     </style>
 </resources>

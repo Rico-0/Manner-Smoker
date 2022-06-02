@@ -3,24 +3,37 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/MannerSmoker/app/src/main/res/drawable/calendar_list_selector.xml" value="0.2953703703703704" />
+        <entry key="..\:/MannerSmoker/app/src/main/res/drawable/ic_baseline_arrow_forward_ios_24.xml" value="0.2953703703703704" />
+        <entry key="..\:/MannerSmoker/app/src/main/res/drawable/ic_selected_day.xml" value="0.2953703703703704" />
         <entry key="..\:/MannerSmoker/app/src/main/res/layout/activity_add_new_smoke_place.xml" value="0.2884963768115942" />
         <entry key="..\:/MannerSmoker/app/src/main/res/layout/activity_calendar_smoke_history.xml" value="0.2884963768115942" />
         <entry key="..\:/MannerSmoker/app/src/main/res/layout/activity_edit_profile.xml" value="0.2884963768115942" />
         <entry key="..\:/MannerSmoker/app/src/main/res/layout/activity_login_select.xml" value="0.26927083333333335" />
         <entry key="..\:/MannerSmoker/app/src/main/res/layout/activity_main.xml" value="0.1621376811594203" />
         <entry key="..\:/MannerSmoker/app/src/main/res/layout/activity_setting.xml" value="0.2884963768115942" />
+        <entry key="..\:/MannerSmoker/app/src/main/res/layout/activity_smoke_history.xml" value="0.18645833333333334" />
         <entry key="..\:/MannerSmoker/app/src/main/res/layout/activity_smoke_place_detail.xml" value="0.2884963768115942" />
+        <entry key="..\:/MannerSmoker/app/src/main/res/layout/activity_test_map.xml" value="0.203125" />
+        <entry key="..\:/MannerSmoker/app/src/main/res/layout/ballon_layout.xml" value="0.17255434782608695" />
         <entry key="..\:/MannerSmoker/app/src/main/res/layout/calendar_day.xml" value="0.22492401215805471" />
+        <entry key="..\:/MannerSmoker/app/src/main/res/layout/calendar_top_layout.xml" value="0.21693840579710144" />
         <entry key="..\:/MannerSmoker/app/src/main/res/layout/custom_tab_button.xml" value="0.2246707193515704" />
         <entry key="..\:/MannerSmoker/app/src/main/res/layout/dialog_dailysmoke_numberpicker.xml" value="0.2246707193515704" />
+        <entry key="..\:/MannerSmoker/app/src/main/res/layout/dialog_set_first_smoke_time.xml" value="0.4" />
         <entry key="..\:/MannerSmoker/app/src/main/res/layout/fragment_add_new_smoke_place.xml" value="0.2246707193515704" />
         <entry key="..\:/MannerSmoker/app/src/main/res/layout/fragment_calendar_smoke_history.xml" value="0.2246707193515704" />
+        <entry key="..\:/MannerSmoker/app/src/main/res/layout/fragment_community.xml" value="0.4" />
         <entry key="..\:/MannerSmoker/app/src/main/res/layout/fragment_edit_profile.xml" value="0.2246707193515704" />
+        <entry key="..\:/MannerSmoker/app/src/main/res/layout/fragment_graph.xml" value="0.28541666666666665" />
+        <entry key="..\:/MannerSmoker/app/src/main/res/layout/fragment_home.xml" value="0.2" />
         <entry key="..\:/MannerSmoker/app/src/main/res/layout/fragment_main.xml" value="0.1743659420289855" />
+        <entry key="..\:/MannerSmoker/app/src/main/res/layout/fragment_map.xml" value="0.17889492753623187" />
         <entry key="..\:/MannerSmoker/app/src/main/res/layout/fragment_setting.xml" value="0.2246707193515704" />
         <entry key="..\:/MannerSmoker/app/src/main/res/layout/fragment_smoke_place_detail.xml" value="0.2884963768115942" />
-        <entry key="..\:/MannerSmoker/app/src/main/res/layout/item_community_post.xml" value="0.2246707193515704" />
+        <entry key="..\:/MannerSmoker/app/src/main/res/layout/item_community_post.xml" value="0.4" />
         <entry key="..\:/MannerSmoker/app/src/main/res/layout/item_day_smoke.xml" value="0.2246707193515704" />
+        <entry key="..\:/MannerSmoker/app/src/main/res/layout/progressbar_layout.xml" value="0.2734375" />
       </map>
     </option>
   </component>

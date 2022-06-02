@@ -22,12 +22,6 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>() {
     override val layoutResourceId: Int
         get() = R.layout.fragment_mypage
 
-    @Parcelize
-    data class Argument (
-        val profileImage : String?,
-        val profileName : String
-    ) : Parcelable
-
     override fun initStartView() {
         initClickListener()
         binding.profileName.text = user_id

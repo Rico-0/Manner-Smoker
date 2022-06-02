@@ -6,11 +6,15 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
-    <uses-feature android:name="android.hardware.camera"
-        android:required="true"/>
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
+
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
         android:name=".application.GlobalApplication"
@@ -22,6 +26,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MannerSmoker"
         android:usesCleartextTraffic="true">
+
+        <service android:name=".util.BackgroundLocationUpdateService" />
+
         <activity
             android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
             android:exported="true">
@@ -36,7 +43,8 @@
                     android:scheme="kakaod1134cd947745b49f0d8c93f0dd4fe81" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.main.StartActivity"
+        <activity
+            android:name=".ui.main.StartActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -46,17 +54,15 @@
         </activity>
         <activity
             android:name=".ui.main.LoginSelectActivity"
-            android:exported="true">
-        </activity>
+            android:exported="true"></activity>
         <activity
             android:name=".ui.main.MainActivity"
-            android:exported="true">
-        </activity>
-        <activity android:name=".ui.map.AddNewSmokePlaceActivity"></activity>
-        <activity android:name=".ui.my.calendar.SmokeCalendarActivity"></activity>
-        <activity android:name=".ui.map.SmokePlaceDetailActivity"></activity>
-        <activity android:name=".ui.my.EditProfileActivity"></activity>
-        <activity android:name=".ui.my.SettingActivity"></activity>
+            android:exported="true"></activity>
+        <activity android:name=".ui.map.AddNewSmokePlaceActivity" />
+        <activity android:name=".ui.my.calendar.SmokeCalendarActivity" />
+        <activity android:name=".ui.my.EditProfileActivity" />
+        <activity android:name=".ui.my.SettingActivity" />
+
         <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="d1134cd947745b49f0d8c93f0dd4fe81" />

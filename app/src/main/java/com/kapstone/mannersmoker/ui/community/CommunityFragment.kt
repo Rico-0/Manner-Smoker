@@ -25,11 +25,11 @@ class CommunityFragment : BaseFragment<FragmentCommunityBinding>() {
     }
 
     private fun tmpPushPostData() {
-        tmpPostList.add(Post("홍길동", Date(), "금연 5일차인데 죽을 것 같다.. 어차피 언젠간 다시 필 것 같은데 그냥 관둘까?"))
-        tmpPostList.add(Post("박길동", getCalendar(-1).time, "금연 4일차인데 죽을 것 같다.. 어차피 언젠간 다시 필 것 같은데 그냥 관둘까?"))
-        tmpPostList.add(Post("정길동", getCalendar(-2).time, "금연 3일차인데 죽을 것 같다.. 어차피 언젠간 다시 필 것 같은데 그냥 관둘까?"))
-        tmpPostList.add(Post("조길동", getCalendar(-3).time, "금연 2일차인데 죽을 것 같다.. 어차피 언젠간 다시 필 것 같은데 그냥 관둘까?"))
-        tmpPostList.add(Post("이길동", getCalendar(-4).time, "금연 1일차인데 죽을 것 같다.. 어차피 언젠간 다시 필 것 같은데 그냥 관둘까?"))
+        tmpPostList.add(Post("홍길동", "아니 금연 진짜 개힘들어","금연 5일차인데 죽을 것 같다.. 어차피 언젠간 다시 필 것 같은데 그냥 관둘까?"))
+        tmpPostList.add(Post("박길동","아니 금연 진짜 개힘들어","금연 4일차인데 죽을 것 같다.. 어차피 언젠간 다시 필 것 같은데 그냥 관둘까?"))
+        tmpPostList.add(Post("정길동", "아니 금연 진짜 개힘들어", "금연 3일차인데 죽을 것 같다.. 어차피 언젠간 다시 필 것 같은데 그냥 관둘까?"))
+        tmpPostList.add(Post("조길동", "아니 금연 진짜 개힘들어","금연 2일차인데 죽을 것 같다.. 어차피 언젠간 다시 필 것 같은데 그냥 관둘까?"))
+        tmpPostList.add(Post("이길동", "아니 금연 진짜 개힘들어", "금연 1일차인데 죽을 것 같다.. 어차피 언젠간 다시 필 것 같은데 그냥 관둘까?"))
 
     }
 

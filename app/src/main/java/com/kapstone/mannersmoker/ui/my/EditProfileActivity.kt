@@ -1,11 +1,10 @@
 package com.kapstone.mannersmoker.ui.my
 
+import android.os.Bundle
 import com.bumptech.glide.Glide
 import com.kapstone.mannersmoker.R
 import com.kapstone.mannersmoker.base.BaseActivity2
 import com.kapstone.mannersmoker.databinding.ActivityEditProfileBinding
-import com.kapstone.mannersmoker.util.PreferencesManager.user_id
-import com.kapstone.mannersmoker.util.PreferencesManager.user_profile_image
 
 class EditProfileActivity : BaseActivity2<ActivityEditProfileBinding>() {
 
@@ -13,9 +12,9 @@ class EditProfileActivity : BaseActivity2<ActivityEditProfileBinding>() {
         get() = R.layout.activity_edit_profile
 
     override fun initStartView() {
-        binding.profileName.text = user_id
+        binding.profileName.text = intent.getStringExtra("profileName")
         Glide.with(this)
-            .load(user_profile_image)
+            .load(intent.getStringExtra("profileImage"))
             .error(R.drawable.my) // 에러 발생 시 기본 이미지
             .into(binding.proflieImage)
         binding.changeProfileCancel.setOnClickListener {

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <RelativeLayout
-        android:id="@+id/user_profile"
+        android:id="@+id/daily_smoke_numberpicker"
         android:layout_width="250dp"
         android:layout_height="230dp"
         android:layout_marginTop="50dp"

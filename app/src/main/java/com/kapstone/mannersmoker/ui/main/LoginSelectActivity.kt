@@ -36,34 +36,31 @@ class LoginSelectActivity : BaseActivity2<ActivityLoginSelectBinding>() {
 
         }
 
-        // 전에 로그인한 적 없는 경우 카카오 토큰 재확인 (원래 앱 실행할 때 최초로 한 번 함)
-        if (!is_logged_in_before) {
-            UserApiClient.instance.accessTokenInfo { tokenInfo, error ->
-                if (error != null) {
-                    Log.d("LoginSelectActivity", "카카오 토큰 확인 중 에러 발생 : $error")
-                    return@accessTokenInfo
-                } else if (tokenInfo == null && is_logged_in_before) {
-                    Toast.makeText(
-                        this,
-                        "사용자 토큰이 만료되어 재로그인이 필요합니다.",
-                        Toast.LENGTH_LONG
-                    ).show()
-                    return@accessTokenInfo
-                } else if (tokenInfo != null) { // 유효한 토큰 존재, 카카오 로그인 성공
-                    is_logged_in_before = true
-                    Log.d("LoginSelectActivity", "토큰 상태 : 유효")
-                    val intent = Intent(this, MainActivity::class.java)
-                    intent.putExtra("loginType", "kakao")
-                    startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
-                    finish()
-                } else if (tokenInfo == null) {
-                    Log.d("LoginSelectActivity", "카카오 토큰 정보 존재하지 않음")
-                    return@accessTokenInfo
-                }
+        UserApiClient.instance.accessTokenInfo { tokenInfo, error ->
+            if (error != null) {
+                Log.d("LoginSelectActivity", "카카오 토큰 확인 중 에러 발생 : $error")
+                return@accessTokenInfo
+            } else if (tokenInfo == null && is_logged_in_before) {
+                Toast.makeText(
+                    this,
+                    "사용자 토큰이 만료되어 재로그인이 필요합니다.",
+                    Toast.LENGTH_LONG
+                ).show()
+                return@accessTokenInfo
+            } else if (tokenInfo != null) { // 유효한 토큰 존재, 카카오 로그인 성공
+                is_logged_in_before = true
+                Log.d("LoginSelectActivity", "토큰 상태 : 유효")
+                val intent = Intent(this, MainActivity::class.java)
+                intent.putExtra("loginType", "kakao")
+                startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+                finish()
+            } else if (tokenInfo == null) {
+                Log.d("LoginSelectActivity", "카카오 토큰 정보 존재하지 않음")
+                return@accessTokenInfo
             }
         }
     }
-    // 로그아웃 후 로그인 화면에서 뒤로 가기 누를 시 카카오 로그인 창 뜨는 문제 해결
+// 로그아웃 후 로그인 화면에서 뒤로 가기 누를 시 카카오 로그인 창 뜨는 문제 해결
 
     // 카카오 로그인 콜백
     val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
