@@ -1,13 +1,14 @@
-package com.kapstone.mannersmoker.model.data
+package com.kapstone.mannersmoker.model.data.smoke
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import java.time.LocalDateTime
 import java.util.*
 
 data class Smoke(
-    @SerializedName("createDate")
+    @SerializedName("createdDate")
     @Expose
-    val createDate : Date,
+    val createDate : String,
 
     @SerializedName("day")
     @Expose
@@ -21,8 +22,7 @@ data class Smoke(
     @Expose
     val year : Int,
 
-    // 이거 Int인지 String인지 모르겠음
     @SerializedName("userId")
     @Expose
-    val userId : String,
+    val userId : Int,
 )

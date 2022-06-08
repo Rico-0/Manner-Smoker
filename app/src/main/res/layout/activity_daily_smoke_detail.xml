@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/setting_root"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:id="@+id/toolbar_setting"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:padding="10dp"
+            android:background="#6DADE3">
+
+            <TextView
+                android:id="@+id/setting_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="일일 흡연 기록 보기"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/smoke_icon_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolbar_setting"
+            android:layout_margin="20dp">
+
+            <ImageView
+                android:id="@+id/smoke_icon"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:src="@drawable/smoke_red2" />
+
+            <TextView
+                android:id="@+id/smoke_count_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="흡연량 총평 :"
+                android:layout_toRightOf="@id/smoke_icon"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:textSize="20sp"/>
+
+            <TextView
+                android:id="@+id/smoke_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@id/smoke_count_text"
+                tools:text="10개비"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/percent_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@id/smoke_count"
+                tools:text="(보통)"
+                android:textSize="20sp" />
+
+        </RelativeLayout>
+
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/daily_smoke_listView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/smoke_icon_layout"
+            android:layout_marginTop="20dp"
+            tools:listitem="@layout/item_daily_smoke" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

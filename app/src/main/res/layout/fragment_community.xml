@@ -3,6 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="communityFragment"
+            type="com.kapstone.mannersmoker.ui.community.CommunityFragment" />
+    </data>
+
     <RelativeLayout
         android:id="@+id/community_root"
         android:layout_width="match_parent"
@@ -24,6 +31,7 @@
             android:layout_height="match_parent"
             android:layout_below="@id/community_text"
             android:layout_marginTop="10dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/item_community_post" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton

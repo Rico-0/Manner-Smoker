@@ -1,52 +1,129 @@
 package com.kapstone.mannersmoker.ui.community
 
+import android.app.AlertDialog
+import android.content.DialogInterface
+import android.content.Intent
+import android.os.Bundle
+import android.util.Log
+import android.view.View
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kapstone.mannersmoker.R
 import com.kapstone.mannersmoker.base.BaseFragment
 import com.kapstone.mannersmoker.databinding.FragmentCommunityBinding
-import com.kapstone.mannersmoker.model.data.Post
-import java.util.*
+import com.kapstone.mannersmoker.model.data.RetrofitInstance
+import com.kapstone.mannersmoker.model.data.post.PostDataClass
+import com.kapstone.mannersmoker.model.data.post.PostGetModel
+import com.kapstone.mannersmoker.model.data.post.PostModifyModel
+import com.kapstone.mannersmoker.model.db.dao.SmokeDao
+import com.kapstone.mannersmoker.util.PreferencesManager.user_id
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class CommunityFragment : BaseFragment<FragmentCommunityBinding>() {
 
-    private val tmpPostList : MutableList<Post> by lazy { mutableListOf() }
-    private val postAdapter : PostAdapter by lazy { PostAdapter() }
+    private lateinit var smokeDao: SmokeDao
+
+    private lateinit var postAdapter: PostAdapter
 
     override val layoutResourceId: Int
         get() = R.layout.fragment_community
 
     override fun initStartView() {
-        tmpPushPostData()
-        postAdapter.setPostsList(tmpPostList)
-        binding.communityPostListView.apply {
-            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-            adapter = postAdapter
+        smokeDao = RetrofitInstance.smokeDao
+        getAllPost()
+        setButtonClickListener()
+    }
+
+    private fun setButtonClickListener() {
+        binding.writePostFloatingActionButton.setOnClickListener {
+            val intent = Intent(requireContext(), PostWriteActivity::class.java)
+            startActivity(intent)
         }
     }
 
-    private fun tmpPushPostData() {
-        tmpPostList.add(Post("홍길동", "아니 금연 진짜 개힘들어","금연 5일차인데 죽을 것 같다.. 어차피 언젠간 다시 필 것 같은데 그냥 관둘까?"))
-        tmpPostList.add(Post("박길동","아니 금연 진짜 개힘들어","금연 4일차인데 죽을 것 같다.. 어차피 언젠간 다시 필 것 같은데 그냥 관둘까?"))
-        tmpPostList.add(Post("정길동", "아니 금연 진짜 개힘들어", "금연 3일차인데 죽을 것 같다.. 어차피 언젠간 다시 필 것 같은데 그냥 관둘까?"))
-        tmpPostList.add(Post("조길동", "아니 금연 진짜 개힘들어","금연 2일차인데 죽을 것 같다.. 어차피 언젠간 다시 필 것 같은데 그냥 관둘까?"))
-        tmpPostList.add(Post("이길동", "아니 금연 진짜 개힘들어", "금연 1일차인데 죽을 것 같다.. 어차피 언젠간 다시 필 것 같은데 그냥 관둘까?"))
+    private fun getAllPost() {
+        smokeDao.getAllPost().enqueue(object : Callback<PostDataClass> {
+            override fun onResponse(call: Call<PostDataClass>, response: Response<PostDataClass>) {
+                if (response.isSuccessful) {
+                        val posts = response.body()
+                        Log.d(TAG, "리스트 개수 : ${posts?.postData?.size}")
+                        val linearLayoutManager = LinearLayoutManager(
+                            requireActivity(),
+                            LinearLayoutManager.VERTICAL,
+                            true
+                        )
+                        postAdapter = posts?.postData?.let { PostAdapter(requireContext(), it, user_id!!) }!!
+                        postAdapter.setDeletePostClickListener { postId ->
+                            val dialog = AlertDialog.Builder(requireContext())
+                                .setTitle("게시글 삭제 확인")
+                                .setMessage("이 게시글을 정말 삭제할까요?")
+                                .setPositiveButton("예", object : DialogInterface.OnClickListener {
+                                    override fun onClick(p0: DialogInterface?, p1: Int) {
+                                        smokeDao.deletePost(postId).enqueue(object : Callback<PostGetModel> {
+                                            override fun onResponse(
+                                                call: Call<PostGetModel>,
+                                                response: Response<PostGetModel>
+                                            ) {
+                                                if (response.isSuccessful) {
+                                                    Toast.makeText(requireContext(), "게시글 삭제가 완료되었습니다.", Toast.LENGTH_SHORT).show()
+                                                } else {
+                                                    Log.d("adapterr", "게시글 삭제 코드 : ${response.code()}")
+                                                }
+                                            }
 
-    }
-
-    private fun getCalendar(amount : Int) : Calendar {
-        return Calendar.getInstance().apply {
-            add(Calendar.DATE, amount)
-        }
-    }
-
-   /* private fun observeData() {
-        mainActivity?.mainViewModel?.postList?.observe(viewLifecycleOwner, {
-            it.let { posts ->
-                postAdapter.update(comments)
-                Handler(Looper.getMainLooper()).post {
-                    binding.postList.scrollToPosition(posts.size - 1)
-                }
+                                            override fun onFailure(call: Call<PostGetModel>, t: Throwable) {
+                                                Log.d("adapterr", "게시글 삭제 실패 : $t")
+                                            }
+                                        })
+                                    }
+                                })
+                                .setNegativeButton("아니오", object : DialogInterface.OnClickListener{
+                                    override fun onClick(p0: DialogInterface?, p1: Int) {
+                                       return
+                                    }
+                                })
+                            dialog.show()
+                        }
+                    postAdapter.setModifyPostClickListener { postId, content, title ->
+                        val intent = Intent(requireContext(), PostModifyActivity::class.java).apply {
+                            putExtra("postId", postId)
+                            putExtra("content", content)
+                            putExtra("title", title)
+                        }
+                        startActivity(intent)
+                    }
+                        requireActivity().runOnUiThread {
+                            binding.communityPostListView.apply {
+                                layoutManager = linearLayoutManager
+                                setHasFixedSize(false)
+                                setItemViewCacheSize(10)
+                                adapter = postAdapter
+                            }
+                        }
+                     }
+                 }
+            override fun onFailure(call: Call<PostDataClass>, t: Throwable) {
+                Toast.makeText(requireContext(), "커뮤니티 데이터 받아오기 실패 : $t", Toast.LENGTH_SHORT).show()
+                Log.d(TAG, "커뮤니티 데이터 받아오기 실패 : $t")
             }
         })
-    } */
+    }
+
+    override fun onResume() {
+        super.onResume()
+        getAllPost()
+    }
+
+    /* private fun observeData() {
+         mainActivity?.mainViewModel?.postList?.observe(viewLifecycleOwner, {
+             it.let { posts ->
+                 postAdapter.update(comments)
+                 Handler(Looper.getMainLooper()).post {
+                     binding.postList.scrollToPosition(posts.size - 1)
+                 }
+             }
+         })
+     } */
 }

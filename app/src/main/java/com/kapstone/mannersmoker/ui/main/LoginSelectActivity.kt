@@ -1,14 +1,9 @@
 package com.kapstone.mannersmoker.ui.main
 
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
-import androidx.databinding.DataBindingUtil
-import com.kakao.sdk.auth.LoginClient
+import com.kakao.sdk.auth.AuthApiClient
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.AuthErrorCause
 import com.kakao.sdk.common.model.ClientErrorCause
@@ -16,51 +11,23 @@ import com.kakao.sdk.user.UserApiClient
 import com.kapstone.mannersmoker.R
 import com.kapstone.mannersmoker.base.BaseActivity2
 import com.kapstone.mannersmoker.databinding.ActivityLoginSelectBinding
-import com.kapstone.mannersmoker.util.PermissionUtil
-import com.kapstone.mannersmoker.util.PreferencesManager.isForegroundPermissionChecked
+import com.kapstone.mannersmoker.model.data.RetrofitInstance
+import com.kapstone.mannersmoker.model.data.user.Token
+import com.kapstone.mannersmoker.model.data.user.User
+import com.kapstone.mannersmoker.util.PreferencesManager.access_token
 import com.kapstone.mannersmoker.util.PreferencesManager.is_logged_in_before
+import com.kapstone.mannersmoker.util.PreferencesManager.refresh_token
+import com.kapstone.mannersmoker.util.PreferencesManager.user_id_from_server
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class LoginSelectActivity : BaseActivity2<ActivityLoginSelectBinding>() {
 
     override val layoutResourceId: Int
         get() = R.layout.activity_login_select
 
-    override fun initStartView() {
-        binding.kakaoLoginButton.setOnClickListener {
-
-            if (LoginClient.instance.isKakaoTalkLoginAvailable(this)) {
-                LoginClient.instance.loginWithKakaoTalk(this, callback = callback)
-            } else {
-                LoginClient.instance.loginWithKakaoAccount(this, callback = callback)
-            }
-
-        }
-
-        UserApiClient.instance.accessTokenInfo { tokenInfo, error ->
-            if (error != null) {
-                Log.d("LoginSelectActivity", "카카오 토큰 확인 중 에러 발생 : $error")
-                return@accessTokenInfo
-            } else if (tokenInfo == null && is_logged_in_before) {
-                Toast.makeText(
-                    this,
-                    "사용자 토큰이 만료되어 재로그인이 필요합니다.",
-                    Toast.LENGTH_LONG
-                ).show()
-                return@accessTokenInfo
-            } else if (tokenInfo != null) { // 유효한 토큰 존재, 카카오 로그인 성공
-                is_logged_in_before = true
-                Log.d("LoginSelectActivity", "토큰 상태 : 유효")
-                val intent = Intent(this, MainActivity::class.java)
-                intent.putExtra("loginType", "kakao")
-                startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
-                finish()
-            } else if (tokenInfo == null) {
-                Log.d("LoginSelectActivity", "카카오 토큰 정보 존재하지 않음")
-                return@accessTokenInfo
-            }
-        }
-    }
-// 로그아웃 후 로그인 화면에서 뒤로 가기 누를 시 카카오 로그인 창 뜨는 문제 해결
+    private val smokeDao = RetrofitInstance.smokeDao
 
     // 카카오 로그인 콜백
     val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
@@ -101,10 +68,71 @@ class LoginSelectActivity : BaseActivity2<ActivityLoginSelectBinding>() {
                 }
             }
         } else if (token != null) {
+            smokeDao.login(token.accessToken).enqueue(object : Callback<Token> {
+                override fun onResponse(call: Call<Token>, response: Response<Token>) {
+                    val token = response.body()
+                    token?.let {
+                        if (token.token.accessToken != null) {
+                            Log.d(TAG, "서버에서 받아온 토큰 값 : ${token.token.accessToken}")
+                            access_token = token.token.accessToken
+                            refresh_token = token.token.refreshToken
+                            smokeDao.getUserInfo(access_token!!).enqueue(object : Callback<User> {
+                                    override fun onResponse(
+                                        call: Call<User>,
+                                        response: Response<User>
+                                    ) {
+                                        val userInfo = response.body()
+                                        userInfo?.user?.userId?.let {
+                                            user_id_from_server = userInfo.user.userId
+                                            Log.d(TAG, "유저 아이디 : $user_id_from_server")
+                                        }
+                                    }
+
+                                    override fun onFailure(call: Call<User>, t: Throwable) {
+                                        Log.d(TAG, "유저 아이디 받아오기 실패 : $t")
+                                    }
+                                })
+                        } else {
+                            Log.d(TAG, "토큰 값 없음")
+                        }
+                    }
+                }
+
+                override fun onFailure(call: Call<Token>, t: Throwable) {
+                    Log.d(TAG, "토큰 값 불러오기 실패 : $t")
+                }
+            })
+
+            Log.d(TAG, "인증에 성공하였습니다. 토큰 값 : $access_token")
             val intent = Intent(this, MainActivity::class.java)
             intent.putExtra("loginType", "kakao")
             startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
             finish()
+        }
+    }
+
+    override fun initStartView() {
+        binding.kakaoLoginButton.setOnClickListener {
+
+            if (UserApiClient.instance.isKakaoTalkLoginAvailable(this)) {
+                UserApiClient.instance.loginWithKakaoTalk(this, callback = callback)
+            } else {
+                UserApiClient.instance.loginWithKakaoAccount(this, callback = callback)
+            }
+        }
+
+        if (AuthApiClient.instance.hasToken()) {
+            UserApiClient.instance.accessTokenInfo { tokenInfo, error ->
+                if (error != null) {
+                    Log.d("LoginSelectActivity", "카카오 토큰 확인 중 에러 발생 : $error")
+                    return@accessTokenInfo
+                } else if (tokenInfo != null) { // 유효한 토큰 존재, 카카오 로그인 성공
+
+                } else if (tokenInfo == null) {
+                    Log.d("LoginSelectActivity", "카카오 토큰 정보 존재하지 않음")
+                    return@accessTokenInfo
+                }
+            }
         }
     }
 

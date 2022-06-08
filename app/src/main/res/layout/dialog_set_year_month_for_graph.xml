@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:id="@+id/year_month_for_graph_numberpicker"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_marginTop="50dp"
+        android:background="#FFFFFF">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true">
+
+            <NumberPicker
+                android:id="@+id/year_numberpicker"
+                android:layout_width="100dp"
+                android:layout_height="124dp"
+                android:layout_marginTop="30dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <NumberPicker
+                android:id="@+id/month_numberpicker"
+                android:layout_width="100dp"
+                android:layout_height="124dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginLeft="20dp"
+                app:layout_constraintStart_toEndOf="@+id/year_numberpicker"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <LinearLayout
+            android:id="@+id/choice_yes_no"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true">
+
+            <TextView
+                android:id="@+id/dialog_bt_accept"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:text="그래프 보기"
+                android:background="#FFE493"
+                android:gravity="center"/>
+
+            <TextView
+                android:id="@+id/dialog_bt_cancel"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="취소"
+                android:background="#ECECEC"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</layout>

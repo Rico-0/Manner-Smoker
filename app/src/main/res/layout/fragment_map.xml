@@ -69,16 +69,16 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginTop="20dp"
-                app:layout_constraintTop_toBottomOf="@+id/add_favorite_place" />
+                app:layout_constraintTop_toBottomOf="@+id/add_smoke_count" />
 
 
             <ImageView
-                android:id="@+id/add_favorite_place"
+                android:id="@+id/add_smoke_count"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:background="@drawable/user_background"
                 android:padding="10dp"
-                android:src="@drawable/post_write_pen"
+                android:src="@drawable/smoke_icon_map"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginBottom="10dp"

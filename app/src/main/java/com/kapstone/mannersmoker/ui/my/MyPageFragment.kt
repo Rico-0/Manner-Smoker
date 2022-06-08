@@ -36,11 +36,6 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>() {
     }
 
     private fun initClickListener() {
-        binding.editProfile.setOnClickListener {
-            val intent = Intent(requireActivity(), EditProfileActivity::class.java)
-            startActivity(intent)
-        }
-
         // 로그아웃 (카카오, 네이버 분기 처리)
         binding.logout.setOnClickListener {
             if (login_type.equals("kakao")) {
@@ -101,9 +96,6 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>() {
             alterDialog.show()
         }
 
-        binding.showReward.setOnClickListener {
-            Toast.makeText(requireActivity(), "업적 보기", Toast.LENGTH_SHORT).show()
-        }
         binding.setting.setOnClickListener {
             val intent = Intent(requireActivity(), SettingActivity::class.java)
             startActivity(intent)

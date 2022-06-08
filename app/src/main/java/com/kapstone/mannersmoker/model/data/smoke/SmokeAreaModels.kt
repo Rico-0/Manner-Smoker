@@ -1,4 +1,4 @@
-package com.kapstone.mannersmoker.model.data
+package com.kapstone.mannersmoker.model.data.smoke
 
 object SmokeAreaModels {
     val allSmokeAreaList = ArrayList<SmokeAreaModel>()

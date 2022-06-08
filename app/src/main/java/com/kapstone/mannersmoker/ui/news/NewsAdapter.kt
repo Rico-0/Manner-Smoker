@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.kapstone.mannersmoker.databinding.ItemNewsBinding
 import com.kapstone.mannersmoker.model.data.News
-import com.kapstone.mannersmoker.model.data.Post
 
 class NewsAdapter : RecyclerView.Adapter<NewsAdapter.ViewHolder>() {
 

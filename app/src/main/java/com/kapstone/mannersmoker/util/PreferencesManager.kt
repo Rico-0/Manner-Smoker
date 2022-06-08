@@ -3,6 +3,10 @@ package com.kapstone.mannersmoker.util
 import com.kapstone.mannersmoker.application.GlobalApplication.Companion.prefs
 
 const val FILENAME = "prefs" // application 클래스에 있는 prefs
+private const val USER_ID_FROM_SERVER = "user_id_from_server"
+private const val ACCESS_TOKEN = "access_token"
+private const val REFRESH_TOKEN = "refresh_token"
+private const val KAKAO_ACCESS_TOKEN = "kakao_access_token"
 private const val USER_ID = "user_id"
 private const val USER_PROFILE_IMAGE = "user_profile_image"
 private const val DAILY_SMOKE = "daily_smoke"
@@ -21,6 +25,26 @@ private const val TODAY_SMOKE_AMOUNT = "today_smoke_amount"
 private const val NOTIFICATION_SMOKE = "notification_smoke"
 
 object PreferencesManager {
+
+    // 서버에서 자동으로 생성되어 받아온 user id 값 (추후 커뮤니티, 흡연량 데이터 등에 필요)
+    var user_id_from_server : Int
+    get() = prefs.getInt(USER_ID_FROM_SERVER, -1)
+    set(value) = prefs.edit().putInt(USER_ID_FROM_SERVER, value).apply()
+
+    // 안드로이드 JWT 토큰
+    var access_token : String?
+    get() = prefs.getString(ACCESS_TOKEN, "")
+    set(value) = prefs.edit().putString(ACCESS_TOKEN, value).apply()
+
+    var refresh_token : String?
+    get() = prefs.getString(REFRESH_TOKEN, "")
+    set(value) = prefs.edit().putString(REFRESH_TOKEN, value).apply()
+
+    // 카카오 토큰
+    var kakao_access_token : String?
+    get() = prefs.getString(KAKAO_ACCESS_TOKEN, "")
+        set(value) = prefs.edit().putString(KAKAO_ACCESS_TOKEN, value).apply()
+
 
     var user_id : String?
     get() = prefs.getString(USER_ID, "")

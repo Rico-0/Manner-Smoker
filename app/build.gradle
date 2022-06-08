@@ -83,7 +83,7 @@ dependencies {
     // ViewPager 사용 시 필요
     implementation 'com.google.android.material:material:1.1.0'
     // 카카오 로그인 sdk 사용 시 필요
-    implementation 'com.kakao.sdk:v2-user:2.0.1'
+    implementation 'com.kakao.sdk:v2-user:2.9.0'
     // image load
     kapt 'com.github.bumptech.glide:glide:4.11.0'
     kapt 'com.github.bumptech.glide:compiler:4.11.0'
@@ -102,6 +102,7 @@ dependencies {
     //retrofit
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
     implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+    implementation "com.google.code.gson:gson:$retrofitVersion"
     implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
 
     // okhttp3
@@ -125,6 +126,9 @@ dependencies {
 
     // graph library
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+
+    implementation 'com.github.prolificinteractive:material-calendarview:1.4.3'
+    implementation 'com.jakewharton.threetenabp:threetenabp:1.1.1'
 
 
 

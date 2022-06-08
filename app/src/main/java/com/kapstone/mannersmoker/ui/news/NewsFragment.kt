@@ -6,13 +6,8 @@ import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kapstone.mannersmoker.R
 import com.kapstone.mannersmoker.base.BaseFragment
-import com.kapstone.mannersmoker.databinding.FragmentCommunityBinding
 import com.kapstone.mannersmoker.databinding.FragmentNewsBinding
-import com.kapstone.mannersmoker.databinding.ItemNewsBinding
 import com.kapstone.mannersmoker.model.data.News
-import com.kapstone.mannersmoker.model.data.Post
-import com.kapstone.mannersmoker.ui.community.PostAdapter
-import java.util.*
 
 class NewsFragment : BaseFragment<FragmentNewsBinding>() {
 

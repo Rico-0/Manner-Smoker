@@ -1,4 +1,4 @@
-package com.kapstone.mannersmoker.model.data
+package com.kapstone.mannersmoker.model.data.smoke
 
 data class SmokeAreaModel(
     val areaCode : Int,

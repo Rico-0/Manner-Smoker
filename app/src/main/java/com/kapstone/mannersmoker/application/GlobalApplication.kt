@@ -1,32 +1,27 @@
 package com.kapstone.mannersmoker.application
 
 import android.app.Application
-import android.app.ProgressDialog
 import android.content.SharedPreferences
-import android.os.AsyncTask
 import android.util.Log
-import android.view.View
-import androidx.databinding.DataBindingUtil
 import com.kakao.sdk.common.KakaoSdk
-import com.kapstone.mannersmoker.databinding.ProgressbarLayoutBinding
 import com.kapstone.mannersmoker.model.data.RetrofitInstance
-import com.kapstone.mannersmoker.model.data.SmokeAreaDataClass
-import com.kapstone.mannersmoker.model.data.SmokeAreaModel
-import com.kapstone.mannersmoker.model.data.SmokeAreaModels
-import com.kapstone.mannersmoker.model.data.SmokeAreaModels.allSmokeAreaList
+import com.kapstone.mannersmoker.model.data.smoke.Smoke
+import com.kapstone.mannersmoker.model.data.user.Token
+import com.kapstone.mannersmoker.model.data.user.User
 import com.kapstone.mannersmoker.model.db.dao.SmokeDao
 import com.kapstone.mannersmoker.ui.my.SettingActivity.Companion.isPassedOneDay
 import com.kapstone.mannersmoker.util.FILENAME
+import com.kapstone.mannersmoker.util.PreferencesManager.access_token
 import com.kapstone.mannersmoker.util.PreferencesManager.daily_smoke
 import com.kapstone.mannersmoker.util.PreferencesManager.is_setted_daily_smoke
 import com.kapstone.mannersmoker.util.PreferencesManager.today_smoke_amount
+import com.kapstone.mannersmoker.util.PreferencesManager.user_id_from_server
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.*
 
 class GlobalApplication : Application() {
-
-    private lateinit var smokeDao: SmokeDao
 
     companion object {
         var instance : GlobalApplication? = null

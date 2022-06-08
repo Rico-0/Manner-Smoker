@@ -48,14 +48,6 @@ abstract class BaseFragment<T : ViewDataBinding> : Fragment() {
         super.onAttach(context)
     }
 
-
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        Log.d(TAG, "++onCreate")
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

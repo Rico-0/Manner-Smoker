@@ -3,6 +3,6 @@
     <string name="kakao_app_key">d1134cd947745b49f0d8c93f0dd4fe81</string>
     <string name="user_not_login">로그인되지 않은 사용자</string>
     <string name="kakao_login">카카오 로그인</string>
-    <string name="naver_login">네이버로그인</string>
-
+    <string name="reply_show">댓글 목록 보이기</string>
+    <string name="reply_hide">댓글 목록 숨기기</string>
 </resources>

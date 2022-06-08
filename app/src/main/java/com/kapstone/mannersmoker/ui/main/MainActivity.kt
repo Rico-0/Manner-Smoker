@@ -1,40 +1,27 @@
 package com.kapstone.mannersmoker.ui.main
 
-import com.kapstone.mannersmoker.ui.map.MapFragment
 import android.app.DatePickerDialog
-import android.app.ProgressDialog
-import android.content.Intent
-import android.os.AsyncTask
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.tabs.TabLayoutMediator
 import com.kakao.sdk.user.UserApiClient
 import com.kapstone.mannersmoker.R
 import com.kapstone.mannersmoker.base.BaseActivity2
 import com.kapstone.mannersmoker.databinding.ActivityMainBinding
-import com.kapstone.mannersmoker.model.db.dao.Repository
 import com.kapstone.mannersmoker.ui.community.CommunityFragment
 import com.kapstone.mannersmoker.ui.home.HomeFragment
+import com.kapstone.mannersmoker.ui.map.MapFragment
 import com.kapstone.mannersmoker.ui.my.MyPageFragment
 import com.kapstone.mannersmoker.ui.news.NewsFragment
-import com.kapstone.mannersmoker.util.BackgroundLocationUpdateService
-import com.kapstone.mannersmoker.util.DateUtil
 import com.kapstone.mannersmoker.util.NetworkConnection
-import com.kapstone.mannersmoker.util.PreferencesManager
 import com.kapstone.mannersmoker.util.PreferencesManager.is_setted_first_smoke_time
 import com.kapstone.mannersmoker.util.PreferencesManager.login_type
-import com.kapstone.mannersmoker.util.PreferencesManager.time_last_smoke
 import com.kapstone.mannersmoker.util.PreferencesManager.time_start_smoke
-import com.kapstone.mannersmoker.util.PreferencesManager.today_smoke_amount
-import com.kapstone.mannersmoker.util.PreferencesManager.used_money
 import com.kapstone.mannersmoker.util.PreferencesManager.user_id
 import com.kapstone.mannersmoker.util.PreferencesManager.user_profile_image
-import com.kapstone.mannersmoker.viewmodel.MainViewModel
-import com.kapstone.mannersmoker.viewmodelfactory.MainViewModelFactory
 import kotlinx.android.synthetic.main.custom_tab_button.view.*
 import java.util.*
 
@@ -45,17 +32,12 @@ class MainActivity : BaseActivity2<ActivityMainBinding>() {
     override val layoutResourceId: Int
         get() = R.layout.activity_main
 
-    private var isCurrentSmoke: Boolean = false
-
-    val mainViewModel = MainViewModel()
-
     companion object {
         val TAB_LAYOUT_TEXT = arrayOf("Map", "Community", "Home", "News", "My")
     }
 
     override fun initStartView() {
         checkNetworkConnection()
-       // startService(Intent(this, BackgroundLocationUpdateService::class.java))
         // 카카오톡으로 로그인 시도한 경우
         loginType = intent.getStringExtra("loginType") ?: "null"
         if (loginType.equals("kakao")) {
@@ -94,16 +76,6 @@ class MainActivity : BaseActivity2<ActivityMainBinding>() {
 
         if (!is_setted_first_smoke_time) {
             showDialog()
-        }
-
-        // "현재 흡연중이신가요?" 알림 클릭했을 시 넘어오는 intent 데이터로 Home화면 Data 변경
-        Log.d(TAG, "isCurrentSmoke : ${intent.getBooleanExtra("currentSmoke", false)}")
-        isCurrentSmoke = intent.getBooleanExtra("currentSmoke", false)
-        if (isCurrentSmoke) {
-            today_smoke_amount += 1
-            used_money += 225 // 1개비 당 약 225원
-            val date = Date()
-            time_last_smoke = DateUtil.dateToString(date)
         }
     }
 

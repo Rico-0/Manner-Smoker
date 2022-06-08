@@ -1,15 +1,12 @@
-package com.kapstone.mannersmoker.model.data
+package com.kapstone.mannersmoker.model.data.user
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
-import java.util.*
 
-// 흡연할 때마다 DB에 하나씩 넣음 (userId)
-// 받아올 때는 날짜로만 받아옴
-data class OneSmokeDataClass (
+data class User(
     @SerializedName("httpStatus")
     @Expose
-    val httpStatus : Int,
+    val httpStatus : String,
 
     @SerializedName("message")
     @Expose
@@ -17,5 +14,5 @@ data class OneSmokeDataClass (
 
     @SerializedName("response")
     @Expose
-    val SmokeData : List<Smoke>
+    val user : UserInfo
 )

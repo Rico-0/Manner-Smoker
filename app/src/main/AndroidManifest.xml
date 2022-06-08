@@ -58,10 +58,13 @@
         <activity
             android:name=".ui.main.MainActivity"
             android:exported="true"></activity>
-        <activity android:name=".ui.map.AddNewSmokePlaceActivity" />
         <activity android:name=".ui.my.calendar.SmokeCalendarActivity" />
-        <activity android:name=".ui.my.EditProfileActivity" />
         <activity android:name=".ui.my.SettingActivity" />
+        <activity android:name=".ui.community.PostWriteActivity"
+            android:windowSoftInputMode="adjustNothing"/>
+        <activity android:name=".ui.community.PostDetailActivity" />
+        <activity android:name=".ui.community.PostModifyActivity"/>
+        <activity android:name=".ui.my.calendar.DailySmokeDetailActivity"/>
 
         <meta-data
             android:name="com.kakao.sdk.AppKey"

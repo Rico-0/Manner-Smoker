@@ -2,18 +2,22 @@ package com.kapstone.mannersmoker.ui.my.calendar
 
 import android.content.Context
 import android.graphics.Color
+import android.os.Build
 import android.util.AttributeSet
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.databinding.DataBindingUtil
 import com.kapstone.mannersmoker.R
 import com.kapstone.mannersmoker.databinding.CalendarTopLayoutBinding
-import com.kapstone.mannersmoker.model.data.DaySmoke
-import com.kapstone.mannersmoker.model.data.Smoke
+import com.kapstone.mannersmoker.model.data.smoke.DaySmoke
+import com.kapstone.mannersmoker.model.data.smoke.DaySmokeWithCalendar
+import com.kapstone.mannersmoker.model.data.smoke.Smoke
 import com.kapstone.mannersmoker.util.DateUtil.convertCalendarToString
 import com.kapstone.mannersmoker.util.DateUtil.isMonthSame
 import java.util.*
@@ -26,7 +30,7 @@ internal class CalendarView(
     private val calendarViewPager: CalendarViewPager by lazy { CalendarViewPager(context) }
     private val calendarPagerAdapter: CalendarPagerAdapter by lazy { CalendarPagerAdapter(context) }
 
-    private var onDayClickListener: ((DaySmoke) -> Unit)? = null
+    private var onDayClickListener: ((Calendar) -> Unit)? = null
     private lateinit var topMonthViewBinding: CalendarTopLayoutBinding // <  2022년 01월   >
     private val layoutParams: LayoutParams by lazy {
         LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT).apply {
@@ -49,10 +53,11 @@ internal class CalendarView(
         requestLayout()
     }
 
-    fun setOnDayClickListener(listener: ((DaySmoke) -> Unit)) {
+    fun setOnDayClickListener(listener: ((Calendar) -> Unit)) {
         this.onDayClickListener = listener
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun notifyDataChanged(list: List<Smoke>) {
         calendarPagerAdapter.setList(list)
     }
@@ -128,15 +133,15 @@ internal class CalendarView(
         }
 
         //날짜 클릭 리스너
-        calendarPagerAdapter.setOnDayClickListener { calendar, day ->
+        calendarPagerAdapter.setOnDayClickListener { calendar, calendar_clicked ->
             //클릭한 날짜가 이번달 날짜가 아니라면 (날짜 클릭했을 때 바로 다른 Activity로 넘어가서 아주 잠깐 보임)
-            if (!isMonthSame(day.calendar, calendar)) {
-                when (day.calendar.compareTo(calendar)) {
+            if (!isMonthSame(calendar_clicked, calendar)) {
+                when (calendar_clicked.compareTo(calendar)) {
                     PREVIOUS_MONTH -> setViewPagerPosition(PREVIOUS_MONTH) //이전 달 날짜이면, 이전 달력 표시
                     NEXT_MONTH -> setViewPagerPosition(NEXT_MONTH) //다음 달 날짜이면, 다음 달 달력 표시
                 }
             }
-            onDayClickListener?.invoke(day) //클릭 콜백 호출
+            onDayClickListener?.invoke(calendar) //클릭 콜백 호출
         }
 
         calendarViewPager.apply {

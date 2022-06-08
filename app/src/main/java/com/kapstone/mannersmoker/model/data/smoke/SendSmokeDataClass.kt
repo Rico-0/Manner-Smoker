@@ -1,9 +1,9 @@
-package com.kapstone.mannersmoker.model.data
+package com.kapstone.mannersmoker.model.data.smoke
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-data class SmokeAreaDataClass (
+data class SendSmokeDataClass(
     @SerializedName("httpStatus")
     @Expose
     val httpStatus : String,
@@ -14,5 +14,5 @@ data class SmokeAreaDataClass (
 
     @SerializedName("response")
     @Expose
-    val placeData : List<Place>
+    val SmokeData : Smoke
 )

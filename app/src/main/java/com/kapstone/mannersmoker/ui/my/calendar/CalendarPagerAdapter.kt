@@ -1,13 +1,19 @@
 package com.kapstone.mannersmoker.ui.my.calendar
 
 import android.content.Context
+import android.os.Build
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.GridView
+import androidx.annotation.RequiresApi
+import androidx.core.view.size
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.PagerAdapter
 import com.kapstone.mannersmoker.R
-import com.kapstone.mannersmoker.model.data.DaySmoke
-import com.kapstone.mannersmoker.model.data.Smoke
+import com.kapstone.mannersmoker.model.data.smoke.DaySmoke
+import com.kapstone.mannersmoker.model.data.smoke.DaySmokeWithCalendar
+import com.kapstone.mannersmoker.model.data.smoke.Smoke
 import java.util.*
 
 class CalendarPagerAdapter(private val context : Context) : PagerAdapter() {
@@ -17,12 +23,13 @@ class CalendarPagerAdapter(private val context : Context) : PagerAdapter() {
     }
 
     private var viewContainer: ViewGroup? = null
-    private var onDaySmokeClickListener: ((Calendar, DaySmoke) -> Unit)? = null
+    private var onDaySmokeClickListener: ((Calendar, Calendar) -> Unit)? = null
 
-    fun setOnDayClickListener(listener: ((Calendar, DaySmoke) -> Unit)) {
+    fun setOnDayClickListener(listener: ((Calendar, Calendar) -> Unit)) {
         this.onDaySmokeClickListener = listener
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun setList(list: List<Smoke>) {
         val views = viewContainer ?: return
         (0 until views.childCount).forEach { i ->
@@ -30,6 +37,7 @@ class CalendarPagerAdapter(private val context : Context) : PagerAdapter() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         val gridView = GridView(context)
         val params = ViewGroup.LayoutParams(
@@ -44,15 +52,15 @@ class CalendarPagerAdapter(private val context : Context) : PagerAdapter() {
             adapter = CalendarGridAdapter(context, getCalendar(position))
             setSelector(R.drawable.calendar_list_selector)
             setOnItemClickListener { adapterView, _, pos, _ ->
-                val selectedDay = adapterView.getItemAtPosition(pos) as DaySmoke // Calendar, List<oneSmoke>
+                val calendar_clicked = adapterView.getItemAtPosition(pos) as DaySmokeWithCalendar // Calendar, List<DaySmoke>
                 // 외부에서 setOnDayClickListener 함수를 이용해서 로직을 정의하면 여기서 호출됨
-                onDaySmokeClickListener?.invoke(getCalendar(position), selectedDay)
+               // onDaySmokeClickListener?.invoke(getCalendar(position), calendar_clicked)
             }
         }
 
         container.addView(gridView)
         viewContainer = container
-
+        Log.d("adapterr", "여기 실행됨. 뷰 컨테이너 : ${viewContainer!!.size}")
         return gridView
     }
 

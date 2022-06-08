@@ -1,4 +1,4 @@
-package com.kapstone.mannersmoker.model.data
+package com.kapstone.mannersmoker.model.data.smoke
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName

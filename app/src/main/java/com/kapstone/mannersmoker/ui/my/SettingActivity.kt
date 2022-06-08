@@ -14,12 +14,14 @@ import com.kapstone.mannersmoker.databinding.ActivitySettingBinding
 import com.kapstone.mannersmoker.util.AlarmReceiver
 import com.kapstone.mannersmoker.util.DateUtil.dateToString
 import com.kapstone.mannersmoker.util.DateUtil.stringToDate
+import com.kapstone.mannersmoker.util.PreferencesManager
 import com.kapstone.mannersmoker.util.PreferencesManager.alarm_daily_smoke
 import com.kapstone.mannersmoker.util.PreferencesManager.alarm_near_to_smoke_place
 import com.kapstone.mannersmoker.util.PreferencesManager.daily_smoke
 import com.kapstone.mannersmoker.util.PreferencesManager.daily_smoke_time
 import com.kapstone.mannersmoker.util.PreferencesManager.is_setted_daily_smoke
 import com.kapstone.mannersmoker.util.PreferencesManager.time_start_smoke
+import com.kapstone.mannersmoker.util.PreferencesManager.today_smoke_amount
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -79,6 +81,7 @@ class SettingActivity : BaseActivity2<ActivitySettingBinding>() {
             daily_smoke = dailySmoke
             binding.dailySmoke.text = daily_smoke.toString() + "개비"
             is_setted_daily_smoke = true
+            today_smoke_amount = 0
             val date = Date()
             Log.d(TAG, "흡연량 설정한 시간 : ${dateToString(date)}")
             daily_smoke_time = dateToString(date) // 흡연량 설정한 시간 저장
@@ -90,21 +93,11 @@ class SettingActivity : BaseActivity2<ActivitySettingBinding>() {
         binding.alarmDailySmokeSwitch.apply {
             isChecked = alarm_daily_smoke
         }
-        binding.alarmSmokePlaceSwitch.apply {
-            isChecked = alarm_near_to_smoke_place
-        }
     }
 
     private fun setAlarmSwitchChangeListener() {
         binding.alarmDailySmokeSwitch.setOnClickListener {
             onClickDailySmokeSwitch()
-        }
-        binding.alarmSmokePlaceSwitch.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) {
-                alarm_near_to_smoke_place = true
-            } else {
-                alarm_near_to_smoke_place = !alarm_near_to_smoke_place
-            }
         }
     }
 

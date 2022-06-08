@@ -1,6 +1,7 @@
 package com.kapstone.mannersmoker.model.data
 
 import com.kapstone.mannersmoker.model.db.dao.SmokeDao
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -11,9 +12,14 @@ object RetrofitInstance {
     private val retrofit by lazy {
         Retrofit.Builder()
             .baseUrl("http://ec2-3-37-250-127.ap-northeast-2.compute.amazonaws.com:8080/")
+            .client(client)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
+
+    private val client = OkHttpClient.Builder()
+        .addInterceptor(AuthInterceptor())
+        .build()
 
     val smokeDao : SmokeDao by lazy {
         retrofit.create(SmokeDao::class.java)

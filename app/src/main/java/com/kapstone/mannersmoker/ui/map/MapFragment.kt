@@ -1,38 +1,36 @@
 package com.kapstone.mannersmoker.ui.map
 
 import android.app.AlertDialog
-import android.app.ProgressDialog
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.location.Location
 import android.location.LocationManager
 import android.net.Uri
-import android.os.AsyncTask
 import android.util.Log
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
-import androidx.navigation.fragment.findNavController
 import com.kapstone.mannersmoker.R
 import com.kapstone.mannersmoker.base.BaseFragment
 import com.kapstone.mannersmoker.databinding.BallonLayoutBinding
 import com.kapstone.mannersmoker.databinding.FragmentMapBinding
+import com.kapstone.mannersmoker.model.data.CurrentPlace.currentMapPoint
 import com.kapstone.mannersmoker.model.data.RetrofitInstance
-import com.kapstone.mannersmoker.model.data.SmokeAreaDataClass
-import com.kapstone.mannersmoker.model.data.SmokeAreaModel
-import com.kapstone.mannersmoker.model.data.SmokeAreaModels
-import com.kapstone.mannersmoker.model.data.SmokeAreaModels.oneSmokeAreaList
+import com.kapstone.mannersmoker.model.data.smoke.*
+import com.kapstone.mannersmoker.model.data.smoke.SmokeAreaModels.oneSmokeAreaList
+import com.kapstone.mannersmoker.model.data.user.UserId
 import com.kapstone.mannersmoker.model.db.dao.SmokeDao
-import com.kapstone.mannersmoker.util.LocationDistance
-import com.kapstone.mannersmoker.util.NetworkConnection
-import com.kapstone.mannersmoker.util.PermissionUtil
+import com.kapstone.mannersmoker.util.*
+import com.kapstone.mannersmoker.util.PreferencesManager.today_smoke_amount
+import com.kapstone.mannersmoker.util.PreferencesManager.user_id_from_server
 import kotlinx.android.synthetic.main.ballon_layout.view.*
+import kotlinx.android.synthetic.main.fragment_home.*
 import net.daum.mf.map.api.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.security.Permission
+import java.util.*
 
 class MapFragment : BaseFragment<FragmentMapBinding>(), MapView.CurrentLocationEventListener,
     MapView.MapViewEventListener {
@@ -48,9 +46,6 @@ class MapFragment : BaseFragment<FragmentMapBinding>(), MapView.CurrentLocationE
     private val markers = arrayListOf<MapPOIItem>()
 
     private lateinit var ballonBinding: BallonLayoutBinding
-
-    // 현재 위치
-    private var currentMapPoint: MapPoint? = null
 
     private lateinit var smokeDao: SmokeDao
 
@@ -107,15 +102,24 @@ class MapFragment : BaseFragment<FragmentMapBinding>(), MapView.CurrentLocationE
         mapView.setPOIItemEventListener(markerListener)
         ballonBinding = DataBindingUtil.inflate(layoutInflater, R.layout.ballon_layout, null, false)
 
-        PermissionUtil.checkBackgroundLocationPermission(requireActivity())
-
-       // checkNetworkConnection()
         startTracking()
         setButtonUiListener()
         setPlaceData()
     }
 
+    /* areaCode
+    용산구 - 1
+    영등포구 - 2
+    광진구 - 3
+    중구 - 4
+    중랑구 - 5
+    동작구 - 6
+    송파구 - 7
+    서대문구 - 8
+    동대문구 - 9
+     */
     private fun searchSmokePlace(areaCode : Int) {
+        // 흡연 구역 검색할 때마다 마커 초기화
         if (markers.size > 0) {
             mapView.removePOIItems(markers.toTypedArray())
             markers.clear()
@@ -134,12 +138,17 @@ class MapFragment : BaseFragment<FragmentMapBinding>(), MapView.CurrentLocationE
                         val areaCode : Int = places?.get(i)?.areaCode!!
                         val latitude: Double = places?.get(i)?.latitude!!
                         val longtitude: Double = places?.get(i)?.longtitude!!
+                        // 흡연 구역 데이터 추가
                         oneSmokeAreaList.add(SmokeAreaModel(areaCode, latitude, longtitude))
+                        // 흡연 구역 데이터를 가지고 마커를 추가하고, 추가한 마커를 리턴받음
                         val marker = setMarkerToLocation(oneSmokeAreaList.get(i))
+                        // 위에서 받은 마커를 마커 배열에 추가 (초기화시키기 위함)
                         markers.add(marker)
                     }
+                    // 추가한 데이터 중 첫 번째 데이터 (아무 순서나 상관 없음) 로 맵 중앙 위치 설정
                     mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(oneSmokeAreaList.get(0)?.latitude!!, oneSmokeAreaList?.get(0)?.longtitude!!), true)
-                    mapView.setZoomLevel(7, true)
+                    mapView.setZoomLevel(4, true)
+                    // 흡연 구역 데이터 초기화
                     oneSmokeAreaList.clear()
                 }
             }
@@ -273,29 +282,59 @@ class MapFragment : BaseFragment<FragmentMapBinding>(), MapView.CurrentLocationE
             mapView.setZoomLevel(zoomLevel, true)
         }
         binding.getCurrentLocation.setOnClickListener {
-            val connection = NetworkConnection(requireActivity())
-            connection.observe(this, Observer { isConnected ->
-                if (!isConnected) {
-                    Toast.makeText(requireContext(), "지도 로드에 실패하였습니다. 인터넷에 연결해 주세요.", Toast.LENGTH_LONG).show()
-                } else {
-                    // 현재 위치로 지도 중심 이동
-                    mapView.setMapCenterPoint(currentMapPoint, true)
-                }
-            })
+            currentMapPoint?.let {
+                mapView.setMapCenterPoint(currentMapPoint, true)
+            }
         }
-        binding.addFavoritePlace.setOnClickListener {
-            val intent = Intent(requireActivity(), AddNewSmokePlaceActivity::class.java)
-            startActivity(intent)
+        binding.addSmokeCount.setOnClickListener {
+            val dialog1 = AlertDialog.Builder(requireActivity())
+                .setTitle("흡연량 추가 안내")
+                .setMessage("현재 흡연 중이신가요?")
+                .setPositiveButton("예", object : DialogInterface.OnClickListener {
+                    override fun onClick(p0: DialogInterface?, p1: Int) {
+                        smokeDao = RetrofitInstance.smokeDao
+                        smokeDao.sendSmokeData(UserId(user_id_from_server)).enqueue(object : Callback<SendSmokeDataClass> {
+                            override fun onResponse(call: Call<SendSmokeDataClass>, response: Response<SendSmokeDataClass>) {
+                                if (response.isSuccessful) {
+                                    val result = response.body()
+                                    result?.SmokeData?.let {
+                                    today_smoke_amount += 1
+                                    PreferencesManager.used_money += 225 // 1개비 당 약 225원
+                                    val date = Date()
+                                    PreferencesManager.time_last_smoke = DateUtil.dateToString(date)
+                                    Toast.makeText(requireContext(), "서버로 데이터 전송됨", Toast.LENGTH_SHORT).show()
+                                    var dialog2 = AlertDialog.Builder(requireActivity())
+                                        .setTitle("오늘의 흡연량이 한 개비 증가되었습니다.")
+                                        .setPositiveButton("확인", object : DialogInterface.OnClickListener {
+                                            override fun onClick(dialog : DialogInterface?, p1: Int) {
+                                                dialog?.dismiss()
+                                            }
+                                        })
+                                    dialog2.show()
+                                }
+                              } else {
+                                    Log.d(TAG, "흡연량 추가 상태 코드 : ${response.code()}")
+                                }
+                            }
+                            override fun onFailure(call: Call<SendSmokeDataClass>, t: Throwable) {
+                                Toast.makeText(requireContext(), "서버로 데이터 전송 실패 : $t", Toast.LENGTH_LONG).show()
+                            }
+                        })
+                    }
+                })
+                .setNegativeButton("아니오", object : DialogInterface.OnClickListener {
+                    override fun onClick(dialog: DialogInterface?, p1: Int) {
+                       dialog?.dismiss()
+                    }
+                })
+            dialog1.show()
         }
         binding.startSearch.setOnClickListener {
+            val imm = requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             val keyWord = binding.locationSearchEditText.text.toString()
             searchSmokePlaceByArea(keyWord)
+            imm.hideSoftInputFromWindow((binding.locationSearchEditText).windowToken, 0) // 흡연 구역 검색 후 키보드 숨기기
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-       // checkNetworkConnection()
     }
 
     override fun onDestroy() {
@@ -306,11 +345,11 @@ class MapFragment : BaseFragment<FragmentMapBinding>(), MapView.CurrentLocationE
     }
 
     // 현재 위치 구하기
-    // TODO : 처음 앱 실행 시 권한 문제 Error 해결
     private fun getCurrentMapPoint(): MapPoint {
         PermissionUtil.checkForgroundLocationPermission(requireActivity())
         val lm: LocationManager = requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        val userNowLocation: Location? = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
+        val userNowLocation: Location? = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER) ?: lm.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+
         // 위도, 경도
         val uLatitude = userNowLocation?.latitude
         val uLongtitude = userNowLocation?.longitude
@@ -344,10 +383,8 @@ class MapFragment : BaseFragment<FragmentMapBinding>(), MapView.CurrentLocationE
 
     // 해당 위치에 마커 찍기
     private fun setMarkerToLocation(place: SmokeAreaModel) : MapPOIItem {
-        var markerList = ArrayList<MapPOIItem>()
         val marker = MapPOIItem()
-        // val placeData : String = place.address + " " + place.name + ... (데이터 전부 공백 단위로 묶어서 문자열로 붙인 다음 Name으로 설정)
-        marker.apply {
+        marker.apply { // 주의 : itemName 마커 생성 시 존재하지 않을 경우 지도에 마커 표시 안 됨
             itemName = ""
             mapPoint = convertPlaceToMapPoint(place.latitude, place.longtitude)
             markerType = setMarkerColor(place)
