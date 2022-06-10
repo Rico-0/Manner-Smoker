@@ -35,6 +35,12 @@ class ReplyAdapter(
 
     private var replyArrayList = ArrayList<Reply>(replyList)
 
+    private lateinit var deleteReplyClickListener : ((Int) -> Unit)
+
+    fun setDeleteReplyClickListener(listener : ((Int) -> Unit)) {
+        this.deleteReplyClickListener = listener
+    }
+
     companion object {
         private val smokeDao: SmokeDao = RetrofitInstance.smokeDao
     }
@@ -55,37 +61,7 @@ class ReplyAdapter(
 
             // 댓글 삭제
             binding.replyDelete.setOnClickListener {
-                val dialog = AlertDialog.Builder(context)
-                    .setTitle("댓글 삭제 확인")
-                    .setMessage("이 댓글을 정말 삭제할까요?")
-                    .setPositiveButton("예", object : DialogInterface.OnClickListener {
-                        override fun onClick(p0: DialogInterface?, p1: Int) {
-                            smokeDao.deleteReply(reply.replyId).enqueue(object : Callback<ReplyGetModel> {
-                                override fun onResponse(
-                                    call: Call<ReplyGetModel>,
-                                    response: Response<ReplyGetModel>
-                                ) {
-                                    if (response.isSuccessful) {
-                                        val pos = adapterPosition
-                                        Toast.makeText(context, "댓글이 삭제되었습니다.", Toast.LENGTH_SHORT).show()
-                                        notifyItemRemoved(pos)
-                                    } else {
-                                        Log.d("adapterr", "댓글 삭제 응답 코드 : ${response.code()}")
-                                    }
-                                }
-
-                                override fun onFailure(call: Call<ReplyGetModel>, t: Throwable) {
-                                    Log.d("adapterr", "게시글 삭제 실패 : $t")
-                                }
-                            })
-                        }
-                    })
-                    .setNegativeButton("아니오", object : DialogInterface.OnClickListener {
-                        override fun onClick(p0: DialogInterface?, p1: Int) {
-                            return
-                        }
-                    })
-                dialog.show()
+                deleteReplyClickListener.invoke(reply.replyId)
             }
         }
     }

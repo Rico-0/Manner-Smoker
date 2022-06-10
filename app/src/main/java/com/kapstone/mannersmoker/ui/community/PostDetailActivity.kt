@@ -178,6 +178,8 @@ class PostDetailActivity : BaseActivity2<ActivityPostDetailBinding>() {
                             )
                                 .show()
                             binding.comment.text.clear()
+                            replyAdapter.notifyDataSetChanged()
+                            getAllReply()
                         }
                     } else {
                         Log.d(TAG, "댓글 등록 코드 : ${response.code()}")
@@ -188,6 +190,39 @@ class PostDetailActivity : BaseActivity2<ActivityPostDetailBinding>() {
                     Log.d(TAG, "댓글 등록 실패 : $t")
                 }
             })
+    }
+
+    private fun deleteReply(replyId : Int) {
+        val dialog = AlertDialog.Builder(this@PostDetailActivity)
+            .setTitle("댓글 삭제 확인")
+            .setMessage("이 댓글을 정말 삭제할까요?")
+            .setPositiveButton("예", object : DialogInterface.OnClickListener {
+                override fun onClick(p0: DialogInterface?, p1: Int) {
+                    smokeDao.deleteReply(replyId).enqueue(object : Callback<ReplyGetModel> {
+                        override fun onResponse(
+                            call: Call<ReplyGetModel>,
+                            response: Response<ReplyGetModel>
+                        ) {
+                            if (response.isSuccessful) {
+                                Toast.makeText(this@PostDetailActivity, "댓글이 삭제되었습니다.", Toast.LENGTH_SHORT).show()
+                                replyAdapter.notifyDataSetChanged()
+                                getAllReply()
+                            } else {
+                                Log.d("adapterr", "댓글 삭제 응답 코드 : ${response.code()}")
+                            }
+                        }
+                        override fun onFailure(call: Call<ReplyGetModel>, t: Throwable) {
+                            Log.d("adapterr", "게시글 삭제 실패 : $t")
+                        }
+                    })
+                }
+            })
+            .setNegativeButton("아니오", object : DialogInterface.OnClickListener {
+                override fun onClick(p0: DialogInterface?, p1: Int) {
+                    return
+                }
+            })
+        dialog.show()
     }
 
     private fun getAllReply() {
@@ -207,6 +242,11 @@ class PostDetailActivity : BaseActivity2<ActivityPostDetailBinding>() {
                         binding.postCommentCount.text = replys.replyData.size.toString()
                         replyAdapter = ReplyAdapter(this@PostDetailActivity, it, user_id!!)
                     }
+
+                    replyAdapter.setDeleteReplyClickListener { replyId ->
+                        deleteReply(replyId)
+                    }
+
                     val linearLayoutManager = LinearLayoutManager(
                         this@PostDetailActivity,
                         LinearLayoutManager.VERTICAL,
@@ -229,14 +269,5 @@ class PostDetailActivity : BaseActivity2<ActivityPostDetailBinding>() {
                     .show()
             }
         })
-    }
-
-    override fun onResume() {
-        super.onResume()
-        thread(start = true) {
-            runOnUiThread {
-                getAllReply()
-            }
-        }
     }
 }

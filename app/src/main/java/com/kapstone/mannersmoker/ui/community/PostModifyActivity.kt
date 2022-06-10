@@ -82,7 +82,7 @@ class PostModifyActivity : BaseActivity2<ActivityModifyPostBinding>() {
                 .setMessage("게시글을 수정할까요?")
                 .setPositiveButton("예", object : DialogInterface.OnClickListener {
                     override fun onClick(p0: DialogInterface?, p1: Int) {
-                        smokeDao.modifyPost(postId, PostModifyModel(binding.postUserTitle.text.toString(), binding.postUserContent.text.toString()))
+                        smokeDao.modifyPost(postId, PostModifyModel(binding.postUserContent.text.toString(), binding.postUserTitle.text.toString()))
                             .enqueue(object :
                                 Callback<PostGetModel> {
                                 @RequiresApi(Build.VERSION_CODES.O)
