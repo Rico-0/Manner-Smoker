@@ -16,8 +16,10 @@ import com.kapstone.mannersmoker.model.data.user.UserId
 import retrofit2.Call
 import retrofit2.http.*
 
+// TODO : 추후 기능별로 분리 필요
 interface SmokeDao {
 
+    /* 1. 흡연 구역 & 흡연량 관련 메서드 */
     @POST("api/smoke-amount")
     fun sendSmokeData(@Body userId : UserId) : Call<SendSmokeDataClass>
 
@@ -34,6 +36,7 @@ interface SmokeDao {
     fun getSmokeArea(@Path("area") areaCode : Int) : Call<SmokeAreaDataClass>
 
 
+    /* 2. 커뮤니티 게시글 관련 메서드 */
     @GET("api/post")
     fun getAllPost() : Call<PostDataClass>
 
@@ -50,6 +53,7 @@ interface SmokeDao {
     fun deletePost(@Path("postId") postId : Int) : Call<PostGetModel>
 
 
+    /* 3. 커뮤니티 댓글 관련 메서드 */
     @POST("api/reply")
     fun sendReply(@Body reply : ReplySendModel) : Call<ReplyGetModel>
 
@@ -60,11 +64,12 @@ interface SmokeDao {
     fun deleteReply(@Path("replyId") replyId : Int) : Call<ReplyGetModel>
 
 
+    /* 4. 로그인 관련 메서드 */
     @GET("api/login/{token}")
-    fun login(@Path("token") token : String) : Call<Token> // Return OK
+    fun login(@Path("token") token : String) : Call<Token>
 
     @GET("user/kakao/oauth")
-    fun getCode(@Query ("code") code : String) : Call<String> // Return OK
+    fun getCode(@Query ("code") code : String) : Call<String>
 
     @GET("api/userinfo")
     fun getUserInfo(@Header ("Authorization") token : String) : Call<User> // 유저 이메일, 아이디(Long), 닉네임

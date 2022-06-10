@@ -40,8 +40,8 @@ class SettingActivity : BaseActivity2<ActivitySettingBinding>() {
         }
         initDailySmoke()
         initFirstSmokeTime()
-        initAlarmSwitch()
-        setAlarmSwitchChangeListener()
+       // initAlarmSwitch()
+       // setAlarmSwitchChangeListener()
     }
 
     private fun initDailySmoke() {
@@ -89,7 +89,7 @@ class SettingActivity : BaseActivity2<ActivitySettingBinding>() {
         dialog.setDialog()
     }
 
-    private fun initAlarmSwitch() {
+  /*  private fun initAlarmSwitch() {
         binding.alarmDailySmokeSwitch.apply {
             isChecked = alarm_daily_smoke
         }
@@ -99,7 +99,7 @@ class SettingActivity : BaseActivity2<ActivitySettingBinding>() {
         binding.alarmDailySmokeSwitch.setOnClickListener {
             onClickDailySmokeSwitch()
         }
-    }
+    } */
 
     fun onClickDailySmokeSwitch() {
         alarm_daily_smoke != alarm_daily_smoke

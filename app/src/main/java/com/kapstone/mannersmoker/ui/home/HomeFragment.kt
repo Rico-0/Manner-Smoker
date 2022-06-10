@@ -45,6 +45,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             binding.lastSmokeTime.text = formatTimeString(stringToDate(time_last_smoke!!)) // 담배 마지막으로 핀 시간으로부터 지난 시간을 알려 줌
         }
         binding.moneySmoke.text = "약 " + used_money.toString() + "원" // 현재까지 담배에 소비한 금액
+        binding.todaySmokeDailySet.text = daily_smoke.toString() + " 개비" // 일일 흡연량 최대
     }
 
     private fun setCurrentHealthData() {

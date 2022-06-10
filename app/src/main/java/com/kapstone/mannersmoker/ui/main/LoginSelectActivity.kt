@@ -16,6 +16,7 @@ import com.kapstone.mannersmoker.model.data.user.Token
 import com.kapstone.mannersmoker.model.data.user.User
 import com.kapstone.mannersmoker.util.PreferencesManager.access_token
 import com.kapstone.mannersmoker.util.PreferencesManager.is_logged_in_before
+import com.kapstone.mannersmoker.util.PreferencesManager.kakao_access_token
 import com.kapstone.mannersmoker.util.PreferencesManager.refresh_token
 import com.kapstone.mannersmoker.util.PreferencesManager.user_id_from_server
 import retrofit2.Call
@@ -68,15 +69,20 @@ class LoginSelectActivity : BaseActivity2<ActivityLoginSelectBinding>() {
                 }
             }
         } else if (token != null) {
+            Log.d(TAG, "카카오 토큰 값 : ${token.accessToken}")
             smokeDao.login(token.accessToken).enqueue(object : Callback<Token> {
                 override fun onResponse(call: Call<Token>, response: Response<Token>) {
                     val token = response.body()
+                    Log.d(TAG, "토큰 불러오기 코드값 : ${response.code()}")
+                   // access_token = token?.token.accessToken
+                   // refresh_token = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJja3k2ODA4MUBuYXZlci5jb20iLCJpYXQiOjE2NTQ2OTMwMjcsImV4cCI6MTY1NTI5NzgyN30.ITGmfn7H2TIoMjelyde9Z5nqk-awYhr3RNjatdi5e_U"
+
                     token?.let {
                         if (token.token.accessToken != null) {
                             Log.d(TAG, "서버에서 받아온 토큰 값 : ${token.token.accessToken}")
                             access_token = token.token.accessToken
                             refresh_token = token.token.refreshToken
-                            smokeDao.getUserInfo(access_token!!).enqueue(object : Callback<User> {
+                                smokeDao.getUserInfo(access_token!!).enqueue(object : Callback<User> {
                                     override fun onResponse(
                                         call: Call<User>,
                                         response: Response<User>

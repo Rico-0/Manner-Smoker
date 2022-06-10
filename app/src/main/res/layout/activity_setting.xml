@@ -146,7 +146,7 @@
                 android:textColor="@color/white"/>
         </LinearLayout>
 
-        <TextView
+    <!--    <TextView
             android:id="@+id/set_first_smoke_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -154,7 +154,7 @@
             android:layout_marginTop="5dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/set_first_smoke_layout" />
+            app:layout_constraintTop_toBottomOf="@id/set_first_smoke_layout" /> -->
 
       <!--  <RelativeLayout
             android:id="@+id/alarm_smoke_place_layout"
@@ -204,7 +204,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:text="현재 위치가 등록된 흡연 구역 근처일 경우 알려줍니다." /> -->
 
-        <RelativeLayout
+      <!--  <RelativeLayout
             android:id="@+id/alarm_daily_smoke_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -250,7 +250,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/alarm_daily_smoke_layout"
             app:layout_constraintStart_toStartOf="@+id/set_first_smoke_description"
-            android:text="매일 오전 9시에 흡연량 설정 알림이 전송됩니다." />
+            android:text="매일 오전 9시에 흡연량 설정 알림이 전송됩니다." /> -->
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
