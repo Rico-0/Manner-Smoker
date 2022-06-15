@@ -81,7 +81,6 @@ class SettingActivity : BaseActivity2<ActivitySettingBinding>() {
             daily_smoke = dailySmoke
             binding.dailySmoke.text = daily_smoke.toString() + "개비"
             is_setted_daily_smoke = true
-            today_smoke_amount = 0
             val date = Date()
             Log.d(TAG, "흡연량 설정한 시간 : ${dateToString(date)}")
             daily_smoke_time = dateToString(date) // 흡연량 설정한 시간 저장
@@ -155,13 +154,13 @@ class SettingActivity : BaseActivity2<ActivitySettingBinding>() {
     }
 
     companion object {
-        fun isPassedOneDay(): Boolean { // 흡연량 설정한 시간으로부터 1일이 경과했는지 계산
+        fun isPassedOneDay(): Boolean { // 흡연량 설정한 시간으로부터 1일 이상 경과했는지 계산
             if (!daily_smoke_time.equals("")) {
                 var today = Date()
                 var lastSetDate = stringToDate(daily_smoke_time!!)
                 var calcuDate = (today.time - lastSetDate.time) / (60 * 60 * 24 * 1000)
                 Log.d("SettingActivity", "calcuDate : $calcuDate")
-                return (calcuDate.toInt() == 1)
+                return (calcuDate.toInt() >= 1)
             } else return false
         }
     }

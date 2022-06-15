@@ -54,7 +54,7 @@ class CommunityFragment : BaseFragment<FragmentCommunityBinding>() {
                             LinearLayoutManager.VERTICAL,
                             true
                         )
-                        postAdapter = posts?.postData?.let { PostAdapter(requireContext(), it, user_id!!) }!!
+                        postAdapter = posts?.postData?.let { PostAdapter(requireContext(), it) }!!
                         postAdapter.setDeletePostClickListener { postId ->
                             val dialog = AlertDialog.Builder(requireContext())
                                 .setTitle("게시글 삭제 확인")
@@ -86,11 +86,10 @@ class CommunityFragment : BaseFragment<FragmentCommunityBinding>() {
                                 })
                             dialog.show()
                         }
-                    postAdapter.setModifyPostClickListener { postId, content, title ->
+                    postAdapter.setModifyPostClickListener { postId, content ->
                         val intent = Intent(requireContext(), PostModifyActivity::class.java).apply {
                             putExtra("postId", postId)
                             putExtra("content", content)
-                            putExtra("title", title)
                         }
                         startActivity(intent)
                     }

@@ -22,11 +22,19 @@ data class Reply(
     @Expose
     val replyContent : String,
 
-    @SerializedName("userId")
+    @SerializedName("nickname")
     @Expose
-    val userId : Int,
+    val nickname : String,
+
+    @SerializedName("thumbnailURL")
+    @Expose
+    val thumbnailURL : String,
 
     @SerializedName("replyId")
     @Expose
-    val replyId : Int
+    val replyId : Int,
+
+    @SerializedName("userId")
+    @Expose
+    val userId : Int
 )

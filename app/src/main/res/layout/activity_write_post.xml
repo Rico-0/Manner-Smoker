@@ -41,24 +41,10 @@
         </LinearLayout>
 
         <EditText
-            android:id="@+id/write_post_title"
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/profile_root_text"
-            android:layout_marginTop="45dp"
-            android:layout_toRightOf="@id/user_profile_icon"
-            android:background="@android:color/transparent"
-            android:gravity="top"
-            android:hint="제목을 입력해 주세요!"
-            android:padding="10dp"
-            android:textSize="15sp"
-            android:textStyle="bold" />
-
-        <EditText
             android:id="@+id/write_post_content"
             android:layout_width="300dp"
             android:layout_height="300dp"
-            android:layout_below="@id/write_post_title"
+            android:layout_below="@id/profile_root_text"
             android:layout_marginTop="35dp"
             android:layout_toRightOf="@id/user_profile_icon"
             android:background="@android:color/transparent"

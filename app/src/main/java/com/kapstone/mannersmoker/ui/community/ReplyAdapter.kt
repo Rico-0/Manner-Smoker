@@ -1,39 +1,24 @@
 package com.kapstone.mannersmoker.ui.community
 
-import android.app.AlertDialog
 import android.content.Context
-import android.content.DialogInterface
 import android.os.Build
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.annotation.RequiresApi
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.kapstone.mannersmoker.R
 import com.kapstone.mannersmoker.databinding.ItemReplyBinding
-import com.kapstone.mannersmoker.model.data.RetrofitInstance
-import com.kapstone.mannersmoker.model.data.post.Post
 import com.kapstone.mannersmoker.model.data.reply.Reply
-import com.kapstone.mannersmoker.model.data.reply.ReplyGetModel
-import com.kapstone.mannersmoker.model.db.dao.SmokeDao
 import com.kapstone.mannersmoker.util.DateUtil
 import com.kapstone.mannersmoker.util.PreferencesManager.user_id_from_server
 import com.kapstone.mannersmoker.util.PreferencesManager.user_profile_image
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class ReplyAdapter(
     private val context: Context,
-    private var replyList: List<Reply>,
-    private val userName: String,
+    private var replyList: List<Reply>
 ) : RecyclerView.Adapter<ReplyAdapter.ViewHolder>() {
-
-    private var replyArrayList = ArrayList<Reply>(replyList)
 
     private lateinit var deleteReplyClickListener : ((Int) -> Unit)
 
@@ -41,19 +26,15 @@ class ReplyAdapter(
         this.deleteReplyClickListener = listener
     }
 
-    companion object {
-        private val smokeDao: SmokeDao = RetrofitInstance.smokeDao
-    }
-
     inner class ViewHolder(private val binding: ItemReplyBinding) :
         RecyclerView.ViewHolder(binding.root) {
         @RequiresApi(Build.VERSION_CODES.O)
         fun bindView(reply: Reply) {
             Glide.with(context)
-                .load(user_profile_image)
+                .load(reply.thumbnailURL)
                 .error(R.drawable.my)
                 .into(binding.replyUserProfileImage)
-            binding.replyUserName.text = userName
+            binding.replyUserName.text = reply.nickname
             binding.replyUserContent.text = reply.replyContent
             binding.replyDate.text = DateUtil.LocalDateTimeToString(reply.createdDate)
             binding.replyDelete.visibility =
@@ -79,30 +60,5 @@ class ReplyAdapter(
 
     override fun getItemCount(): Int {
         return replyList.size
-    }
-
-    fun update(newList : List<Reply>) {
-        val diffResult = DiffUtil.calculateDiff(ContentDiffUtil(replyList, newList), false)
-        diffResult.dispatchUpdatesTo(this) //Dispatches the update events to the given adapter. 주어진 어댑터에 변경사항을 전달한다.
-        replyArrayList.clear()
-        replyArrayList.addAll(newList)
-    }
-
-    inner class ContentDiffUtil(private val oldList: List<Reply>, private val currentList: List<Reply>) : DiffUtil.Callback() {
-
-        //1. 아이템의 고유 id 값이 같은지
-        override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-            return oldList[oldItemPosition].replyId == currentList[newItemPosition].replyId
-        }
-
-        //2. id 가 같다면, 내용물도 같은지 확인 equals()
-        override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-            return oldList[oldItemPosition] == currentList[newItemPosition]
-        }
-
-        //변화하기 전 데이터셋 사이즈
-        override fun getOldListSize(): Int = oldList.size
-        //변화한 후 데이터셋 사이즈
-        override fun getNewListSize(): Int = currentList.size
     }
 }

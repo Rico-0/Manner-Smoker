@@ -22,11 +22,16 @@ data class Post (
     @Expose
     var postId : Int,
 
-    @SerializedName("title")
-    @Expose
-    var title : String,
-
     @SerializedName("userId")
     @Expose
-    var userId : Int
-)
+    var userId : Int,
+
+    @SerializedName("nickname")
+    @Expose
+    var nickname : String,
+
+    @SerializedName("thumbnailURL")
+    @Expose
+    var thumbnailURL : String
+
+    )

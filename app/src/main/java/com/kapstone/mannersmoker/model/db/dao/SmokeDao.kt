@@ -16,7 +16,6 @@ import com.kapstone.mannersmoker.model.data.user.UserId
 import retrofit2.Call
 import retrofit2.http.*
 
-// TODO : 추후 기능별로 분리 필요
 interface SmokeDao {
 
     /* 1. 흡연 구역 & 흡연량 관련 메서드 */

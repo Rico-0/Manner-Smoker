@@ -35,10 +35,10 @@ class PostWriteActivity : BaseActivity2<ActivityWritePostBinding>() {
 
     private fun setButtonClickListener() {
         binding.writePostButton.setOnClickListener {
-            if (binding.writePostContent.text.toString() == "" || binding.writePostTitle.text.toString() == "") {
+            if (binding.writePostContent.text.toString() == "") {
                 val dialog = AlertDialog.Builder(this)
                     .setTitle("게시글 등록 오류")
-                    .setMessage("제목 혹은 내용이 입력되지 않았습니다. 내용을 입력해 주세요.")
+                    .setMessage("내용이 입력되지 않았습니다. 내용을 입력해 주세요.")
                     .setPositiveButton("확인", object : DialogInterface.OnClickListener {
                         override fun onClick(p0: DialogInterface?, p1: Int) {
                            return
@@ -46,7 +46,7 @@ class PostWriteActivity : BaseActivity2<ActivityWritePostBinding>() {
                     })
                 dialog.show()
             } else {
-                smokeDao.sendPost(PostSendModel(binding.writePostContent.text.toString(), binding.writePostTitle.text.toString(), user_id_from_server))
+                smokeDao.sendPost(PostSendModel(binding.writePostContent.text.toString(), user_id_from_server))
                     .enqueue(object : Callback<PostGetModel> {
                         override fun onResponse(
                             call: Call<PostGetModel>,

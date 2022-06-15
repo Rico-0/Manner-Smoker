@@ -58,27 +58,6 @@
 
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/post_user_title_text"
-            app:layout_constraintStart_toStartOf="@+id/user_info_layout"
-            app:layout_constraintTop_toBottomOf="@+id/user_info_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="3dp"
-            android:textSize="17sp"
-            android:text="제목 : " />
-
-        <TextView
-            android:id="@+id/post_user_title"
-            app:layout_constraintStart_toEndOf="@+id/post_user_title_text"
-            app:layout_constraintTop_toBottomOf="@+id/user_info_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="3dp"
-            android:textSize="17sp"
-            android:textStyle="bold"
-            tools:text="아 금연 ㄹㅇ 개힘드네"/>
-
         <LinearLayout
             android:id="@+id/user_date_layout"
             android:layout_width="wrap_content"
@@ -87,7 +66,7 @@
             android:layout_marginTop="5dp"
             android:layout_marginLeft="10dp"
             app:layout_constraintStart_toEndOf="@id/post_user_profile_image"
-            app:layout_constraintTop_toBottomOf="@+id/post_user_title">
+            app:layout_constraintTop_toBottomOf="@+id/user_info_layout">
 
             <TextView
                 android:id="@+id/post_user_date_text"

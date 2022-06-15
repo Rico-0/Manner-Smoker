@@ -56,60 +56,11 @@
             app:layout_constraintTop_toBottomOf="@id/item_community_root"
             android:layout_marginTop="50dp">
 
-            <ImageView
-                android:id="@+id/post_user_profile_image"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_margin="10dp"
-                android:src="@drawable/my"
-                android:background="#DCDCDC"
-                android:scaleType="centerCrop"/>
-
-            <LinearLayout
-                android:id="@+id/user_info_layout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_margin="10dp"
-                app:layout_constraintStart_toEndOf="@id/post_user_profile_image"
-                app:layout_constraintTop_toTopOf="parent">
-
-
-                <TextView
-                    android:id="@+id/post_user_name_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="작성자 : "
-                    android:textStyle="bold"
-                    android:textSize="17sp"/>
-
-                <TextView
-                    android:id="@+id/post_user_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    tools:text="홍길동"
-                    android:textSize="17sp"/>
-
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/post_user_title_text"
-                app:layout_constraintStart_toStartOf="@+id/user_info_layout"
-                app:layout_constraintTop_toBottomOf="@+id/user_info_layout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:textSize="17sp"
-                android:textStyle="bold"
-                android:text="제목 : " />
-
             <TextView
                 android:id="@+id/post_user_context_text"
-                app:layout_constraintStart_toStartOf="@+id/post_user_profile_image"
-                app:layout_constraintTop_toBottomOf="@+id/post_user_profile_image"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/post_user_content"
+                app:layout_constraintBottom_toBottomOf="parent"
                 android:layout_marginTop="120dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -118,22 +69,14 @@
                 android:text="내용" />
 
             <EditText
-                android:id="@+id/post_user_title"
-                app:layout_constraintStart_toEndOf="@+id/post_user_title_text"
-                app:layout_constraintTop_toBottomOf="@+id/user_info_layout"
-                android:hint="내용을 입력해 주세요!"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="15sp"
-                tools:text="아 금연 ㄹㅇ 개힘드네"/>
-
-            <EditText
                 android:id="@+id/post_user_content"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="50dp"
-                app:layout_constraintTop_toBottomOf="@id/post_user_title"
-                app:layout_constraintStart_toStartOf="@id/user_info_layout"
+                android:layout_marginLeft="50dp"
+               app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 android:hint="내용을 입력해 주세요!"
                 android:textSize="15sp"
                 tools:text="금연 5일차인데 죽을 것 같다.. 어차피 언젠간 다시 필 것 같은데 그냥 관둘까? 금연 5일차인데 죽을 것 같다.. 어차피 언젠간 다시 필 것 같은데 그냥 관둘까?

@@ -456,7 +456,6 @@ class MapFragment : BaseFragment<FragmentMapBinding>(), MapView.CurrentLocationE
 
     private fun setPlaceData() {
         // 저장된 흡연 구역들 데이터 설정 후 마커 찍기
-        // TODO : 서버에서 데이터 받아오는 경우 MainActivity의 MainViewModel로 받아오기
         SmokeAreaModels.allSmokeAreaList.forEach {
           setMarkerToLocation(it)
           }

@@ -9,10 +9,6 @@ data class PostSendModel(
     @Expose
     var content : String,
 
-    @SerializedName("title")
-    @Expose
-    var title : String,
-
     @SerializedName("userId")
     @Expose
     var userId : Int

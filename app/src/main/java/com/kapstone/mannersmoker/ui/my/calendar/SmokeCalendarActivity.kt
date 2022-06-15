@@ -51,9 +51,6 @@ class SmokeCalendarActivity : BaseActivity2<ActivitySmokeHistoryBinding>() {
             val allSmokeData : SmokeDataClass? = response.body()
             Log.d(TAG, "smokedata : ${allSmokeData?.httpStatus}")
             Log.d(TAG, "smokedata : ${Arrays.toString(allSmokeData?.SmokeData?.toTypedArray())}")
-            allSmokeData?.SmokeData?.let {
-               // binding.customCalendarView.notifyDataChanged(it)
-            }
         }
 
         override fun onFailure(call: Call<SmokeDataClass>, t: Throwable) {
@@ -79,6 +76,8 @@ class SmokeCalendarActivity : BaseActivity2<ActivitySmokeHistoryBinding>() {
         getAllSmokeData
     }
 
+    // 주말 색 변경 (토요일 : 파랑, 일요일 : 빨강)
+    // 날짜 클릭 리스너 : intent로 해당 날짜를 넘겨주면 정보를 가지고 서버 api 호출
     private fun initCalendar() {
         binding.smokeCalendarView.addDecorators(Decorator.TodayDecorator(), Decorator.SundayDecorator(), Decorator.SaturdayDecorator())
         binding.smokeCalendarView.setOnDateChangedListener { widget, date, selected ->
@@ -92,6 +91,8 @@ class SmokeCalendarActivity : BaseActivity2<ActivitySmokeHistoryBinding>() {
         }
     }
 
+    // 월별 흡연 데이터를 날짜별로 리스트에 넣어서 Key : 날짜, Value : 리스트로 리턴
+    //
     private fun setDailySmokeDataToBarEntry(list : List<Smoke>) : HashMap<Int, List<Smoke>> {
         val result = HashMap<Int, List<Smoke>>()
         for (element in list) {
@@ -107,6 +108,7 @@ class SmokeCalendarActivity : BaseActivity2<ActivitySmokeHistoryBinding>() {
         return result
     }
 
+    // 그래프 열람할 년, 월 선택
     private fun showDialog() {
         val dialog = YearMonthPickerDialog(this)
         dialog.setAcceptBtnClickListener { year, month ->
@@ -115,6 +117,8 @@ class SmokeCalendarActivity : BaseActivity2<ActivitySmokeHistoryBinding>() {
         dialog.setDialog()
     }
 
+    // 그래프의 x축 글씨를 생성 (월별 마지막 날짜에 따라 개수가 달라짐)
+    // ex : 5월 : 1일 ~ 30일
     private fun generateDays(lastDay : Int) : ArrayList<String> {
         val result = ArrayList<String>()
         for (i in 1..lastDay) {
@@ -123,6 +127,7 @@ class SmokeCalendarActivity : BaseActivity2<ActivitySmokeHistoryBinding>() {
         return result
     }
 
+    // 그래프 셋팅
     private fun setBarChart(year : Int, month : Int) {
         val lastDay = Calendar.getInstance().apply {
             set(Calendar.YEAR, year)
@@ -142,7 +147,7 @@ class SmokeCalendarActivity : BaseActivity2<ActivitySmokeHistoryBinding>() {
                     val smokeData = response.body()
                     smokeData?.SmokeData?.let {
                         Log.d(TAG, "차트 흡연량 값 : $year 년 $month 월 ${smokeData.SmokeData.size}")
-                        //  1.2f라는 좌표에, 20.0f만큼의 그래프 영역을 그린다는 의미
+                        // 구해진 해당 달의 마지막 날짜까지 각각 그래프에 넣을 데이터 추가
                         for (i in 1..lastDay) {
                             entries.add(BarEntry(
                                 i.toFloat(),

@@ -36,14 +36,11 @@ class PostDetailActivity : BaseActivity2<ActivityPostDetailBinding>() {
 
     private lateinit var replyAdapter: ReplyAdapter
 
-    var isReplyShow = true
-
-    var isHaveReply = false
-
     private var postId: Int = -1
     private var userId: Int = -1
     private lateinit var content: String
-    private lateinit var title: String
+    private lateinit var nickname : String
+    private lateinit var thumbnailURL : String
     private lateinit var createdDate: String
     private var modifiedDate: String = ""
 
@@ -59,7 +56,11 @@ class PostDetailActivity : BaseActivity2<ActivityPostDetailBinding>() {
                 if (it.resultCode == RESULT_OK) {
                     // modifyActivity에서 갖고 온 intent (it)
                     val modifiedData: Intent? = it.data
-                    binding.postUserTitle.text = modifiedData?.getStringExtra("modifiedTitle") ?: ""
+                    Glide.with(this)
+                        .load(user_profile_image)
+                        .error(R.drawable.my)
+                        .into(binding.postUserProfileImage)
+                    binding.postUserName.text = user_id
                     binding.postUserContent.text = modifiedData?.getStringExtra("modifiedContent") ?: ""
                     binding.postUserDate.text = modifiedData?.getStringExtra("modifiedDate") ?: ""
                     userId = modifiedData?.getIntExtra("userId", -1) ?: -1
@@ -73,21 +74,16 @@ class PostDetailActivity : BaseActivity2<ActivityPostDetailBinding>() {
 
     private fun bindingContents() {
         Glide.with(this)
-            .load(user_profile_image)
+            .load(thumbnailURL)
             .error(R.drawable.my)
             .into(binding.postUserProfileImage)
-        binding.postUserName.text = user_id
-        binding.postUserTitle.text = title
+        binding.postUserName.text = nickname
         binding.postUserContent.text = content
         // CommunityFragment에서 넘어옴
         if (intent.getStringExtra("modifiedDate") != "")
             binding.postUserDate.text = modifiedDate
         else
             binding.postUserDate.text = createdDate
-
-        binding.replyListText.setOnClickListener {
-            isReplyShow = !isReplyShow
-        }
 
         binding.writeCommentButton.setOnClickListener {
             if (binding.comment.text.toString() == "") {
@@ -154,11 +150,12 @@ class PostDetailActivity : BaseActivity2<ActivityPostDetailBinding>() {
     private fun getPostData() {
         if (intent.getBooleanExtra("fromCommunity", false)) {
             content = intent.getStringExtra("content") ?: ""
-            title = intent.getStringExtra("title") ?: ""
             postId = intent.getIntExtra("postId", -1)
             userId = intent.getIntExtra("userId", -1)
             createdDate = intent.getStringExtra("createdDate") ?: ""
             modifiedDate = intent.getStringExtra("modifiedDate") ?: ""
+            nickname = intent.getStringExtra("nickname") ?: ""
+            thumbnailURL = intent.getStringExtra("thumbnail") ?: ""
         }
     }
 
@@ -233,14 +230,10 @@ class PostDetailActivity : BaseActivity2<ActivityPostDetailBinding>() {
             ) {
                 if (response.isSuccessful) {
                     val replys = response.body()
-                    if (replys?.replyData == null) {
-                        isHaveReply = false
-                    }
                     replys?.replyData?.let {
-                        isHaveReply = true
                         Log.d(TAG, "댓글 개수 : ${replys.replyData.size}")
                         binding.postCommentCount.text = replys.replyData.size.toString()
-                        replyAdapter = ReplyAdapter(this@PostDetailActivity, it, user_id!!)
+                        replyAdapter = ReplyAdapter(this@PostDetailActivity, it)
                     }
 
                     replyAdapter.setDeleteReplyClickListener { replyId ->

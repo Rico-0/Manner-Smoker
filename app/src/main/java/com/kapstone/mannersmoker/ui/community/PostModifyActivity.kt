@@ -31,7 +31,6 @@ class PostModifyActivity : BaseActivity2<ActivityModifyPostBinding>() {
 
     private var postId: Int = -1
     private lateinit var content: String
-    private lateinit var title: String
     private var userId : Int = -1
 
     override fun initStartView() {
@@ -66,10 +65,10 @@ class PostModifyActivity : BaseActivity2<ActivityModifyPostBinding>() {
 
     private fun modifyPost() {
         smokeDao = RetrofitInstance.smokeDao
-        if (binding.postUserTitle.text.toString() == "" || binding.postUserContent.text.toString() == "") {
+        if (binding.postUserContent.text.toString() == "") {
             val dialog = AlertDialog.Builder(this)
                 .setTitle("게시글 수정 오류")
-                .setMessage("제목 혹은 내용이 입력되지 않았습니다.")
+                .setMessage("내용이 입력되지 않았습니다.")
                 .setPositiveButton("예", object : DialogInterface.OnClickListener {
                     override fun onClick(p0: DialogInterface?, p1: Int) {
                         return
@@ -82,7 +81,7 @@ class PostModifyActivity : BaseActivity2<ActivityModifyPostBinding>() {
                 .setMessage("게시글을 수정할까요?")
                 .setPositiveButton("예", object : DialogInterface.OnClickListener {
                     override fun onClick(p0: DialogInterface?, p1: Int) {
-                        smokeDao.modifyPost(postId, PostModifyModel(binding.postUserContent.text.toString(), binding.postUserTitle.text.toString()))
+                        smokeDao.modifyPost(postId, PostModifyModel(binding.postUserContent.text.toString()))
                             .enqueue(object :
                                 Callback<PostGetModel> {
                                 @RequiresApi(Build.VERSION_CODES.O)
@@ -97,7 +96,6 @@ class PostModifyActivity : BaseActivity2<ActivityModifyPostBinding>() {
                                             Toast.LENGTH_SHORT
                                         ).show()
                                         val intent = Intent(applicationContext, PostDetailActivity::class.java).apply {
-                                            putExtra("modifiedTitle", binding.postUserTitle.text.toString())
                                             putExtra("modifiedContent", binding.postUserContent.text.toString())
                                             putExtra("postId", postId)
                                             putExtra("userId", userId)
@@ -126,18 +124,11 @@ class PostModifyActivity : BaseActivity2<ActivityModifyPostBinding>() {
     }
 
     private fun setPostData() {
-        Glide.with(this)
-            .load(user_profile_image)
-            .error(R.drawable.my)
-            .into(binding.postUserProfileImage)
-        binding.postUserName.text = user_id
-
         postId = intent.getIntExtra("postId", -1)
         content = intent.getStringExtra("content") ?: ""
         title = intent.getStringExtra("title") ?: ""
         userId = intent.getIntExtra("userId", -1)
 
-        binding.postUserTitle.setText(title)
         binding.postUserContent.setText(content)
     }
 
