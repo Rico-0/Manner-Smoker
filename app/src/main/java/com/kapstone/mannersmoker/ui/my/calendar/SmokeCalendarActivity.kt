@@ -145,13 +145,12 @@ class SmokeCalendarActivity : BaseActivity2<ActivitySmokeHistoryBinding>() {
                     response: Response<SmokeDataClass>
                 ) {
                     val smokeData = response.body()
-                    smokeData?.SmokeData?.let {
-                        Log.d(TAG, "차트 흡연량 값 : $year 년 $month 월 ${smokeData.SmokeData.size}")
-                        // 구해진 해당 달의 마지막 날짜까지 각각 그래프에 넣을 데이터 추가
+                     smokeData?.SmokeData?.let {
+                        val monthSmokeData = setDailySmokeDataToBarEntry(smokeData.SmokeData)
                         for (i in 1..lastDay) {
                             entries.add(BarEntry(
                                 i.toFloat(),
-                                (setDailySmokeDataToBarEntry(smokeData.SmokeData).get(i)?.size ?: 0)?.toFloat()!!)
+                                (monthSmokeData.get(i)?.size ?: 0)?.toFloat()!!)
                             )
                         }
                         binding.barChart.run {
