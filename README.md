@@ -19,6 +19,17 @@
 - 빨간색 동그라미로 표시된 아이콘을 누를 경우 흡연량 기록 가능
 
 ## 1.4 Home
+
+![28](https://user-images.githubusercontent.com/45986958/184157592-13d346d8-6d05-442e-9f59-2e172eaa227f.png)
+
+![29](https://user-images.githubusercontent.com/45986958/184157623-440aaf48-ffdd-40ba-ad73-df9d1bbdf4c5.png)
+
+![30](https://user-images.githubusercontent.com/45986958/184157643-64c96482-cb36-4df9-9ee3-ae16f7966674.png)
+
+![31](https://user-images.githubusercontent.com/45986958/184157654-540bd607-b6c7-4b4f-81fa-ef2c13e404cf.png)
+
+![32](https://user-images.githubusercontent.com/45986958/184157681-f6c7fe69-b493-44e7-9217-b96081c09477.png)
+
 - 실시간으로 자신의 흡연량을 체크할 수 있는 화면
 - 매일 사용자가 설정한 흡연량 (별도로 설정하지 않을 시 기본 10개비로 설정됨) 을 기준으로 하루 흡연량에 따라 상단의 얼굴 아이콘과 배경색이 변경됨
 - 소비한 금액은 하루 단위가 아닌 앱을 설치한 시점 이후로 계속 누적됨 
@@ -55,6 +66,10 @@
 
 ![20](https://user-images.githubusercontent.com/45986958/184155763-eb772c5d-ad7c-4575-ac97-45a70eb1a5af.png)
 
+![21](https://user-images.githubusercontent.com/45986958/184157518-891dac34-8f9f-457d-9c29-5ced3d37af6e.png)
+
+![22](https://user-images.githubusercontent.com/45986958/184157529-53c0c42f-fdc1-4358-a7e2-67ba771389b6.png)
+
 - 게시글 작성, 수정, 삭제 / 댓글 작성, 삭제 기능 지원
 - 댓글 열람과 작성은 게시글을 클릭했을 시 가능
 
@@ -74,15 +89,32 @@
 - 흡연량의 지속적인 변경은 목표 달성에 좋지 않은 영향을 줄 수 있다고 판단하여 하루에 한 번만 설정하도록 제한
 
 ## 1.5.1 흡연 기록 보기 : 달력
+
+![23](https://user-images.githubusercontent.com/45986958/184157536-31b57d1a-9a70-496d-bf5a-ec5a32612f3e.png)
+
 - 오늘 날짜는 굵은 글씨로 표시됨
+
+![24](https://user-images.githubusercontent.com/45986958/184157541-bf52780e-7b1e-4d9f-94e9-c612d8c362b5.png)
+
 - 원하는 날짜를 클릭하면 해당 날짜의 흡연 기록(시간) 을 열람할 수 있음
+
+![25](https://user-images.githubusercontent.com/45986958/184157552-0a302eff-3190-49c1-ad66-d2a7696b696a.png)
+
 - 1 ~ 20 을 5구간씩 나눠 최상 ~ 최악까지의 흡연 정도를 결정하도록 했으며, 흡연을 많이 한 날일수록 좌측 상단의 담배개비 아이콘 색이 진해짐
 
 ## 1.5.1 흡연 기록 보기 : 그래프
+
+![26](https://user-images.githubusercontent.com/45986958/184157568-f9393762-aee8-455d-896a-d45ae302cdc3.png)
+
+![27](https://user-images.githubusercontent.com/45986958/184157579-a40aab8b-a5dc-450c-8cec-b781f81e7937.png)
+
 - 한 달 기준으로 흡연량 현황을 제공하는 그래프
 - 따라서 년도와 달을 선택하면 흡연량 데이터를 열람할 수 있음
 
 ## 1.6 News
+
+![33](https://user-images.githubusercontent.com/45986958/184157706-f66f4520-361f-40cc-91db-cd6115d05e5a.png)
+
 - 본래는 백엔드에서 데이터를 제공받기로 하였으나 다른 기능 구현으로 인해 시간이 촉박하여 프론트엔드 단에서 임의로 금연 관련 기사 데이터 삽입
 
 
