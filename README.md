@@ -3,16 +3,19 @@
 
 ## 1.1 로그인
 ![1](https://user-images.githubusercontent.com/45986958/184149883-b04e1b22-bece-42ff-af03-3279705150a7.png)
+
 - 소셜로그인(카카오 로그인)
 
 ## 1.2 앱 최초 실행 시
 ![2](https://user-images.githubusercontent.com/45986958/184150324-98b8276e-e380-4064-a68d-94728abd9780.png)
 
 ![3](https://user-images.githubusercontent.com/45986958/184150693-5ebc3c4c-f6f4-4729-873c-b59d5b90c884.png)
+
 - 흡연을 시작한 날짜 설정 (DatePicker)
 
 ## 1.3 흡연 기록
 ![4](https://user-images.githubusercontent.com/45986958/184153324-51af5d4c-450d-4059-b877-6b251174a35a.png)
+
 - 빨간색 동그라미로 표시된 아이콘을 누를 경우 흡연량 기록 가능
 
 ## 1.4 Home
@@ -22,13 +25,16 @@
 
 ## 1.5 Map
 ![5](https://user-images.githubusercontent.com/45986958/184153340-75f3e026-9cc3-4c9d-aaae-995b9652bdd0.png)
+
 - 원래는 전국 단위의 흡연 부스 데이터를 제공하려고 했으나, 백엔드 쪽 사정으로 서울시의 9개 구 데이터로 한정되었음
 - 구 이름 (예 : 중랑구) 를 입력하면 카카오맵에 마커로 흡연 부스의 위치가 표시됨
+
 ![6](https://user-images.githubusercontent.com/45986958/184153361-f81680b1-deab-439c-bdeb-3eedf8007b2e.png)
 
 ![7](https://user-images.githubusercontent.com/45986958/184153385-08f141e3-dd3f-4a53-ac94-4eead4f16242.png)
 
 ![8](https://user-images.githubusercontent.com/45986958/184153427-7d9eea30-a93f-4812-86d4-e0bdb3caf596.png)
+
 - 마커 클릭 시 사용자의 현 위치로부터의 대략적인 거리가 나오며, 카카오맵이 설치되어 있는 경우 자동차/대중교통/도보 수단을 중 선택하여 원하는 흡연 부스로 이동할 수 있음
 
 ## 1.6 Community
@@ -37,9 +43,12 @@
 
 ## 1.5 My
 ![9](https://user-images.githubusercontent.com/45986958/184153445-e581c7c5-38b3-4a90-ab26-9515a3ee18bf.png)
+
 - 사용자가 카카오톡에서 등록한 프로필 사진과 닉네임을 띄워 줌
+
 ![10](https://user-images.githubusercontent.com/45986958/184153460-5b278be2-4d79-46c3-bdad-7b9a01a3e104.png)
 - 설정 클릭 시 일일 흡연량을 설정할 수 있음 (최대 0개비 ~ 최대 20개비 (한갑) )
+
 - 흡연량의 지속적인 변경은 목표 달성에 좋지 않은 영향을 줄 수 있다고 판단하여 하루에 한 번만 설정하도록 제한
 
 ## 1.5.1 흡연 기록 보기 : 달력
