@@ -1,6 +1,14 @@
 
 # Manner-Smoker
 
+## 1. 사용한 기술
+- Retrofit (Java Spring 언어로 구현된 백엔드와 통신)
+- KakaoMap API
+- DataBinding
+- MaterialCalendarView (흡연량 데이터 달력으로 표시)
+- MPAndroidChart (흡연량 데이터 그래프로 표시)
+- Glide (이미지 로딩)
+
 ## 1.1 로그인
 ![1](https://user-images.githubusercontent.com/45986958/184149883-b04e1b22-bece-42ff-af03-3279705150a7.png)
 
@@ -117,5 +125,9 @@
 
 - 본래는 백엔드에서 데이터를 제공받기로 하였으나 다른 기능 구현으로 인해 시간이 촉박하여 프론트엔드 단에서 임의로 금연 관련 기사 데이터 삽입
 
+## 아쉬웠던 점
+- MVVM 패턴을 적용하여 데이터의 실시간 변화를 View에 보여주지 못한 점
+  -> 따라서 코드 가독성이 전체적으로 떨어지는 문제가 생김
+- UX/UI에 대한 이해도 부족으로 사용자 입장에서 매력적인 UI를 디자인하지 못한 점
 
 
