@@ -38,7 +38,7 @@ class GlobalApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         instance = this
-        KakaoSdk.init(this, "d1134cd947745b49f0d8c93f0dd4fe81")
+        KakaoSdk.init(this, KAKAO_API_KEY)
         prefs = getSharedPreferences(FILENAME, 0) // 사용자 설정값을 얻어옴
         if (isPassedOneDay()) {
             is_setted_daily_smoke = !is_setted_daily_smoke
