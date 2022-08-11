@@ -38,6 +38,23 @@
 - 마커 클릭 시 사용자의 현 위치로부터의 대략적인 거리가 나오며, 카카오맵이 설치되어 있는 경우 자동차/대중교통/도보 수단을 중 선택하여 원하는 흡연 부스로 이동할 수 있음
 
 ## 1.6 Community
+
+![13](https://user-images.githubusercontent.com/45986958/184155569-6ffdf02d-526c-4790-b7f5-75f710e68023.png)
+
+![14](https://user-images.githubusercontent.com/45986958/184155593-7ac591a3-5eb3-4c90-98e8-6243481462cc.png)
+
+![15](https://user-images.githubusercontent.com/45986958/184155656-84b04a71-d972-41af-9e50-8626e9a8eb9a.png)
+
+![16](https://user-images.githubusercontent.com/45986958/184155678-3873e92a-edf7-49c4-92e7-67fdbc0e5424.png)
+
+![17](https://user-images.githubusercontent.com/45986958/184155697-e1a0d683-4e65-4f34-a9c3-b650bcd16487.png)
+
+![18](https://user-images.githubusercontent.com/45986958/184155716-c619bb11-7ee2-4a1b-8a0f-1e01b30c6939.png)
+
+![19](https://user-images.githubusercontent.com/45986958/184155746-7da8a8ed-fd27-4ac9-a9fd-fb0cf3c801bd.png)
+
+![20](https://user-images.githubusercontent.com/45986958/184155763-eb772c5d-ad7c-4575-ac97-45a70eb1a5af.png)
+
 - 게시글 작성, 수정, 삭제 / 댓글 작성, 삭제 기능 지원
 - 댓글 열람과 작성은 게시글을 클릭했을 시 가능
 
@@ -47,7 +64,12 @@
 - 사용자가 카카오톡에서 등록한 프로필 사진과 닉네임을 띄워 줌
 
 ![10](https://user-images.githubusercontent.com/45986958/184153460-5b278be2-4d79-46c3-bdad-7b9a01a3e104.png)
+
+![11](https://user-images.githubusercontent.com/45986958/184155541-795007e0-a559-4ee3-b16b-fc43c3b408d1.png)
+
 - 설정 클릭 시 일일 흡연량을 설정할 수 있음 (최대 0개비 ~ 최대 20개비 (한갑) )
+
+![12](https://user-images.githubusercontent.com/45986958/184155555-3695de81-471d-4f85-9e69-8eee654516c2.png)
 
 - 흡연량의 지속적인 변경은 목표 달성에 좋지 않은 영향을 줄 수 있다고 판단하여 하루에 한 번만 설정하도록 제한
 
