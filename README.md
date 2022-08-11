@@ -7,6 +7,8 @@
 
 ## 1.2 앱 최초 실행 시
 ![2](https://user-images.githubusercontent.com/45986958/184150324-98b8276e-e380-4064-a68d-94728abd9780.png)
+
+![3](https://user-images.githubusercontent.com/45986958/184150693-5ebc3c4c-f6f4-4729-873c-b59d5b90c884.png)
 - 흡연을 시작한 날짜 설정 (DatePicker)
 
 ## 1.3 흡연 기록
