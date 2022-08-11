@@ -14,7 +14,7 @@
 - 흡연을 시작한 날짜 설정 (DatePicker)
 
 ## 1.3 흡연 기록
-![4](https://user-images.githubusercontent.com/45986958/184153324-51af5d4c-450d-4059-b877-6b251174a35a.png)
+![4](https://user-images.githubusercontent.com/45986958/184154011-b8ad4a15-9dd3-483a-9a6f-78aa386a06c3.png)
 
 - 빨간색 동그라미로 표시된 아이콘을 누를 경우 흡연량 기록 가능
 
