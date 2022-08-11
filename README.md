@@ -3,12 +3,15 @@
 
 ## 1.1 로그인
 - 소셜로그인(카카오 로그인)
+![1](https://user-images.githubusercontent.com/45986958/184147845-02c3291c-66d4-48b0-b8ca-610f97944d71.png)
 
 ## 1.2 앱 최초 실행 시
 - 흡연을 시작한 날짜 설정 (DatePicker)
+![2](https://user-images.githubusercontent.com/45986958/184147858-20dfdc82-0030-41a6-b344-6ef5f038f4bf.png)   ![3](https://user-images.githubusercontent.com/45986958/184147864-968013e9-c755-4e86-8eff-8c6c23bfdfaf.png)
 
 ## 1.3 흡연 기록
 - 빨간색 동그라미로 표시된 아이콘을 누를 경우 흡연량 기록 가능
+
 
 ## 1.4 Home
 - 실시간으로 자신의 흡연량을 체크할 수 있는 화면
