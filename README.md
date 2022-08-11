@@ -2,8 +2,8 @@
 # Manner-Smoker
 
 ## 1.1 로그인
-- 소셜로그인(카카오 로그인)
 ![1](https://user-images.githubusercontent.com/45986958/184149883-b04e1b22-bece-42ff-af03-3279705150a7.png)
+- 소셜로그인(카카오 로그인)
 
 ## 1.2 앱 최초 실행 시
 - 흡연을 시작한 날짜 설정 (DatePicker)
