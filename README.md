@@ -4,7 +4,7 @@
 ## 1. 사용한 기술
 - Retrofit (Java Spring 언어로 구현된 백엔드와 통신)
 - KakaoMap API
-- DataBinding
+- ViewBinding
 - MaterialCalendarView (흡연량 데이터 달력으로 표시)
 - MPAndroidChart (흡연량 데이터 그래프로 표시)
 - Glide (이미지 로딩)
